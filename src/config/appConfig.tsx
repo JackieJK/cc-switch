@@ -200,7 +200,7 @@ export const APP_ICON_MAP: Record<AppId, AppConfig> = {
   },
   ohmypi: {
     label: "Oh My Pi",
-    icon: <ProviderIcon icon="pi" name="Oh My Pi" size={14} showFallback={false} />,
+    icon: <ProviderIcon icon="ohmypi" name="Oh My Pi" size={14} showFallback={false} />,
     activeClass:
         "bg-cyan-500/10 ring-1 ring-cyan-500/20 hover:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400",
     badgeClass:
