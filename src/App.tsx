@@ -1167,7 +1167,8 @@ function App() {
                         activeApp === "opencode" ||
                         activeApp === "openclaw" ||
                         activeApp === "hermes" ||
-                        activeApp === "pi"
+                        activeApp === "pi" ||
+                        activeApp === "ohmypi"
                           ? (provider) =>
                               setConfirmAction({ provider, action: "remove" })
                           : undefined
