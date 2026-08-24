@@ -75,6 +75,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
       return {
         ...initialData.apps,
         grokbuild: initialData.apps.grokbuild ?? false,
+        ohmypi: initialData.apps.ohmypi ?? false,
       };
     }
     return {

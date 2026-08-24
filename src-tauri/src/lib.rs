@@ -1480,8 +1480,6 @@ pub fn run() {
             // Oh My Pi native provider and session views
             commands::get_ohmypi_current_state,
             commands::update_ohmypi_provider_usage_script,
-            commands::get_ohmypi_discovery_settings,
-            commands::set_ohmypi_discovery_settings,
             // Profile management (项目配置方案)
             commands::list_profiles,
             commands::create_profile,

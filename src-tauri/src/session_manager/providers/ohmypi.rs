@@ -156,12 +156,10 @@ fn parse_session(path: &Path) -> Result<SessionMeta, String> {
                     }
                 }
             }
-            Some("title") => {
-                if session_title.is_none() {
-                    if let Some(t) = value.get("title").and_then(|v| v.as_str()) {
-                        if !t.is_empty() {
-                            session_title = Some(t.to_string());
-                        }
+            Some("title") if session_title.is_none() => {
+                if let Some(t) = value.get("title").and_then(|v| v.as_str()) {
+                    if !t.is_empty() {
+                        session_title = Some(t.to_string());
                     }
                 }
             }

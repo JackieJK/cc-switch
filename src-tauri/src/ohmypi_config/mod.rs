@@ -3,8 +3,7 @@
 //! Oh My Pi (`omp`, can1357/oh-my-pi) keeps its configuration under
 //! `~/.omp/agent` (or `~/.omp/profiles/<name>/agent` for a named profile):
 //! - `models.yml` / `models.yaml` — provider entries (`providers` map), YAML.
-//! - `config.yml` / `config.yaml` — settings (`modelRoles.default`, discovery
-//!   toggles, `provider.appendOnlyContext`), YAML.
+//! - `config.yml` / `config.yaml` — settings (`modelRoles.default`), YAML.
 //! - `mcp.json` — MCP servers (`mcpServers` map), JSON.
 //!
 
@@ -37,6 +36,10 @@ pub(crate) fn get_ohmypi_agent_dir() -> Result<PathBuf, AppError> {
         .clone()
     {
         return Ok(path);
+    }
+
+    if let Some(dir) = crate::settings::get_ohmypi_override_dir() {
+        return Ok(dir);
     }
 
     // Named profile: OMP_PROFILE, then PI_PROFILE.
@@ -577,46 +580,6 @@ pub(crate) fn provider_from_selector(selector: &str) -> &str {
     selector.split_once('/').map(|(provider, _)| provider).unwrap_or(selector)
 }
 
-/// Read a boolean settings path (e.g. `["skills", "enableClaudeUser"]`).
-pub(crate) fn read_ohmypi_bool_setting(path: &[&str]) -> Result<Option<bool>, AppError> {
-    let document = read_ohmypi_settings()?;
-    Ok(get_nested(&document, path).and_then(Value::as_bool))
-}
-
-/// Write a boolean settings path, preserving all other keys.
-pub(crate) fn write_ohmypi_bool_setting(path: &[&str], value: bool) -> Result<(), AppError> {
-    let (mut document, expected_revision) = read_ohmypi_settings_with_revision()?;
-    set_nested(&mut document, path, Value::Bool(value));
-    write_ohmypi_settings(&document, &expected_revision)
-}
-
-/// Read `provider.appendOnlyContext` (`auto`/`on`/`off`).
-pub(crate) fn read_ohmypi_append_only_context() -> Result<Option<String>, AppError> {
-    let document = read_ohmypi_settings()?;
-    Ok(get_nested(&document, &["provider", "appendOnlyContext"])
-        .and_then(Value::as_str)
-        .map(str::to_string))
-}
-
-/// Write `provider.appendOnlyContext`.
-pub(crate) fn write_ohmypi_append_only_context(value: &str) -> Result<(), AppError> {
-    let (mut document, expected_revision) = read_ohmypi_settings_with_revision()?;
-    set_nested(
-        &mut document,
-        &["provider", "appendOnlyContext"],
-        Value::String(value.to_string()),
-    );
-    write_ohmypi_settings(&document, &expected_revision)
-}
-
-fn get_nested<'a>(value: &'a Value, path: &[&str]) -> Option<&'a Value> {
-    let mut current = value;
-    for segment in path {
-        current = current.as_object()?.get(*segment)?;
-    }
-    Some(current)
-}
-
 fn set_nested(value: &mut Value, path: &[&str], new_value: Value) {
     match path.split_first() {
         None => *value = new_value,
@@ -841,29 +804,6 @@ mod tests {
         let _agent = TestAgentDir::new();
         write_ohmypi_default_model(None).expect("noop write with None");
         assert!(!get_ohmypi_settings_path().expect("settings path").exists());
-    }
-
-    #[test]
-    #[serial]
-    fn discovery_toggle_and_append_only_write() {
-        let _agent = TestAgentDir::new();
-        write_agent_file("config.yml", "skills:\n  enableCodexUser: true\n");
-
-        write_ohmypi_bool_setting(&["skills", "enableClaudeUser"], false).expect("write toggle");
-        assert_eq!(
-            read_ohmypi_bool_setting(&["skills", "enableClaudeUser"]).expect("read toggle"),
-            Some(false)
-        );
-        assert_eq!(
-            read_ohmypi_bool_setting(&["skills", "enableCodexUser"]).expect("read sibling"),
-            Some(true)
-        );
-
-        write_ohmypi_append_only_context("on").expect("write append-only");
-        assert_eq!(
-            read_ohmypi_append_only_context().expect("read append-only").as_deref(),
-            Some("on")
-        );
     }
 
     #[test]

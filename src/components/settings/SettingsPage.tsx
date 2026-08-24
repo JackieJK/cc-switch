@@ -15,7 +15,7 @@ import {
   Cloud,
   ScrollText,
   HardDriveDownload,
-  FlaskConical, Sparkles,
+  FlaskConical,
 } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -57,7 +57,6 @@ import { useSettings } from "@/hooks/useSettings";
 import { useImportExport } from "@/hooks/useImportExport";
 import { useTranslation } from "react-i18next";
 import type { SettingsFormState } from "@/hooks/useSettings";
-import {OhMyPiSettingsSection} from "@/components/settings/OhMyPiSettingsSection.tsx";
 
 interface SettingsDialogProps {
   open: boolean;
@@ -358,36 +357,11 @@ export function SettingsPage({
                             openclawDir={settings.openclawConfigDir}
                             hermesDir={settings.hermesConfigDir}
                             piDir={settings.piConfigDir}
+                            ohmypiDir={settings.ohmypiConfigDir}
                             onDirectoryChange={updateDirectory}
                             onBrowseDirectory={browseDirectory}
                             onResetDirectory={resetDirectory}
                           />
-                        </AccordionContent>
-                      </AccordionItem>
-
-                      <AccordionItem
-                        value="ohmypi"
-                        className="rounded-xl glass-card overflow-hidden"
-                      >
-                        <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-                          <div className="flex items-center gap-3">
-                            <Sparkles className="h-5 w-5 text-cyan-500" />
-                            <div className="text-left">
-                              <h3 className="text-base font-semibold">
-                                {t("settings.ohmypi.title", {
-                                  defaultValue: "Oh My Pi",
-                                })}
-                              </h3>
-                              <p className="text-sm text-muted-foreground font-normal">
-                                {t("settings.ohmypi.description", {
-                                  defaultValue: "跨 Agent 发现与 append-only 设置",
-                                })}
-                              </p>
-                            </div>
-                          </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="px-6 pb-6 pt-4 border-t border-border/50">
-                          <OhMyPiSettingsSection />
                         </AccordionContent>
                       </AccordionItem>
 

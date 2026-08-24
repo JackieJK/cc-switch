@@ -338,10 +338,6 @@
     }
   },
   "settings": {
-    "ohmypi": {
-      "title": "Oh My Pi",
-      "description": "跨 Agent 发现与 append-only 设置"
-    },
     "title": "设置",
     "general": "通用",
     "tabGeneral": "通用",
@@ -795,6 +791,8 @@
     "hermesConfigDirDescription": "覆盖 Hermes 配置目录 (config.yaml)。",
     "piConfigDir": "Pi 配置目录",
     "piConfigDirDescription": "覆盖 Pi 配置目录（models.json、指令文件、提示词、Skills 与会话）。",
+    "ohmypiConfigDir": "Oh My Pi 配置目录",
+    "ohmypiConfigDirDescription": "覆盖 Oh My Pi 配置目录（models.yml、config.yml、提示词、Skills 与会话）。",
     "browsePlaceholderClaude": "例如：/home/<你的用户名>/.claude",
     "browsePlaceholderCodex": "例如：/home/<你的用户名>/.codex",
     "browsePlaceholderGemini": "例如：/home/<你的用户名>/.gemini",
@@ -802,6 +800,7 @@
     "browsePlaceholderOpencode": "例如：/home/<你的用户名>/.config/opencode",
     "browsePlaceholderOpenclaw": "例如：/home/<你的用户名>/.openclaw",
     "browsePlaceholderHermes": "例如：/home/<你的用户名>/.hermes",
+    "browsePlaceholderOhMyPi": "例如：/home/<你的用户名>/.omp/agent",
     "browsePlaceholderPi": "例如：/home/<你的用户名>/.pi/agent",
     "browseDirectory": "浏览目录",
     "resetDefault": "恢复默认目录（需保存后生效）",
@@ -1058,27 +1057,6 @@
     }
   },
   "ohmypi": {
-    "settings": {
-      "skillsEnabled": "启用 Skills",
-      "skillsEnabledDesc": "是否加载 Oh My Pi 的 skills。",
-      "enableClaudeUser": "加载 Claude 用户 Skills",
-      "enableClaudeUserDesc": "从 ~/.claude/skills 加载。",
-      "enableClaudeProject": "加载 Claude 项目 Skills",
-      "enableClaudeProjectDesc": "从 .claude/skills 加载。",
-      "enableCodexUser": "加载 Codex Skills",
-      "enableCodexUserDesc": "从 ~/.codex/skills 加载。",
-      "enablePiUser": "加载 Pi 用户 Skills",
-      "enablePiUserDesc": "从 ~/.pi/skills 加载。",
-      "enablePiProject": "加载 Pi 项目 Skills",
-      "enablePiProjectDesc": "从 .pi/skills 加载。",
-      "enableAgentsUser": "加载 Agents 用户 Skills",
-      "enableAgentsUserDesc": "从 ~/.agents/skills 加载。",
-      "enableAgentsProject": "加载 Agents 项目 Skills",
-      "enableAgentsProjectDesc": "从 .agents/skills 加载。",
-      "discoveryIntro": "控制 Oh My Pi 自动发现并加载其他 Agent 的 Skills，以及 append-only 上下文模式。写入 ~/.omp/agent/config.yml。",
-      "appendOnly": "Append-only 上下文",
-      "appendOnlyDesc": "为 DeepSeek / 本地推理等前缀缓存命中的供应商缓存系统提示词与工具定义，提升命中率。"
-    },
     "form": {
       "modelsToggle": "配置模型列表",
       "modelsHiddenHint": "未启用模型列表：保存后将以 override-only 形态写入（不写 models 键）",

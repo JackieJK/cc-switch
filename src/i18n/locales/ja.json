@@ -338,10 +338,6 @@
     }
   },
   "settings": {
-    "ohmypi": {
-      "title": "Oh My Pi",
-      "description": "エージェント間の検出と append-only 設定"
-    },
     "title": "設定",
     "general": "一般",
     "tabGeneral": "一般",
@@ -795,6 +791,8 @@
     "hermesConfigDirDescription": "Hermes の設定ディレクトリ（config.yaml）を上書きします。",
     "piConfigDir": "Pi 設定ディレクトリ",
     "piConfigDirDescription": "Pi の設定ディレクトリ（models.json、指示ファイル、プロンプト、Skills、セッション）を上書きします。",
+    "ohmypiConfigDir": "Oh My Pi 設定ディレクトリ",
+    "ohmypiConfigDirDescription": "Oh My Pi の設定ディレクトリ（models.yml、config.yml、プロンプト、Skills、セッション）を上書きします。",
     "browsePlaceholderClaude": "例: /home/<your-username>/.claude",
     "browsePlaceholderCodex": "例: /home/<your-username>/.codex",
     "browsePlaceholderGemini": "例: /home/<your-username>/.gemini",
@@ -802,6 +800,7 @@
     "browsePlaceholderOpencode": "例: /home/<your-username>/.config/opencode",
     "browsePlaceholderOpenclaw": "例: /home/<your-username>/.openclaw",
     "browsePlaceholderHermes": "例: /home/<your-username>/.hermes",
+    "browsePlaceholderOhMyPi": "例: /home/<your-username>/.omp/agent",
     "browsePlaceholderPi": "例: /home/<your-username>/.pi/agent",
     "browseDirectory": "ディレクトリを選択",
     "resetDefault": "デフォルトに戻す（保存後に反映）",
@@ -1058,27 +1057,6 @@
     }
   },
   "ohmypi": {
-    "settings": {
-      "skillsEnabled": "Skills を有効にする",
-      "skillsEnabledDesc": "Oh My Pi の skills を読み込むかどうか。",
-      "enableClaudeUser": "Claude ユーザー Skills を読み込む",
-      "enableClaudeUserDesc": "~/.claude/skills から読み込みます。",
-      "enableClaudeProject": "Claude プロジェクト Skills を読み込む",
-      "enableClaudeProjectDesc": ".claude/skills から読み込みます。",
-      "enableCodexUser": "Codex Skills を読み込む",
-      "enableCodexUserDesc": "~/.codex/skills から読み込みます。",
-      "enablePiUser": "Pi ユーザー Skills を読み込む",
-      "enablePiUserDesc": "~/.pi/skills から読み込みます。",
-      "enablePiProject": "Pi プロジェクト Skills を読み込む",
-      "enablePiProjectDesc": ".pi/skills から読み込みます。",
-      "enableAgentsUser": "Agents ユーザー Skills を読み込む",
-      "enableAgentsUserDesc": "~/.agents/skills から読み込みます。",
-      "enableAgentsProject": "Agents プロジェクト Skills を読み込む",
-      "enableAgentsProjectDesc": ".agents/skills から読み込みます。",
-      "discoveryIntro": "Oh My Pi が他のエージェントの Skills を自動検出して読み込むかどうか、および append-only コンテキストモードを制御します。~/.omp/agent/config.yml に書き込まれます。",
-      "appendOnly": "Append-only コンテキスト",
-      "appendOnlyDesc": "DeepSeek / ローカル推論などプレフィックスキャッシュが効くプロバイダー向けにシステムプロンプトとツール定義をキャッシュし、ヒット率を高めます。"
-    },
     "form": {
       "modelsToggle": "モデルリストを設定",
       "modelsHiddenHint": "モデルリスト無効：保存時は override-only 形式で書き込みます（models キーを書きません）",

@@ -15,6 +15,17 @@ export const invalidateOhMyPiProviderCaches = async (
   ]);
 };
 
+export const invalidateOhMyPiDirectoryCaches = async (
+  queryClient: QueryClient,
+) => {
+  await Promise.all([
+    queryClient.invalidateQueries({ queryKey: ohmypiKeys.all }),
+    queryClient.invalidateQueries({ queryKey: ["providers", "ohmypi"] }),
+    queryClient.invalidateQueries({ queryKey: ["skills", "installed"] }),
+    queryClient.invalidateQueries({ queryKey: ["sessions"] }),
+  ]);
+};
+
 export function useOhMyPiCurrentState(enabled = true) {
   return useQuery({
     queryKey: ohmypiKeys.currentState,

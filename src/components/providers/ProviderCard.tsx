@@ -354,7 +354,7 @@ export function ProviderCard({
     ? isCurrent
     : appId === "openclaw"
       ? Boolean(isDefaultModel)
-      : appId === "opencode" || appId === "pi"
+      : appId === "opencode" || appId === "pi" || appId === "ohmypi"
         ? false
         : isAutoFailoverEnabled
           ? activeProviderId === provider.id

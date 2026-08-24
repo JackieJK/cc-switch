@@ -217,6 +217,36 @@ fn insert_ohmypi_session_entry(
         return Ok(false);
     }
 
+    // Check the session_usage_dedup ledger so re-scans of a modified file
+    // don't re-import messages already written to proxy_request_logs.
+    let already_seen: bool = conn
+        .query_row(
+            "SELECT EXISTS(
+                SELECT 1 FROM session_usage_dedup
+                WHERE data_source = ?1 AND request_id = ?2
+            )",
+            rusqlite::params![DATA_SOURCE, request_id],
+            |row| row.get(0),
+        )
+        .map_err(|e| AppError::Database(format!("查询 Oh My Pi 用量去重账本失败: {e}")))?;
+    if already_seen {
+        return Ok(false);
+    }
+
+    // Register in the ledger before inserting the usage row.
+    conn.execute(
+        "INSERT OR IGNORE INTO session_usage_dedup
+         (data_source, request_id, semantic_id, has_entry_id)
+         VALUES (?1, ?2, ?3, ?4)",
+        rusqlite::params![
+            DATA_SOURCE,
+            request_id,
+            request_id,
+            0i64,
+        ],
+    )
+    .map_err(|e| AppError::Database(format!("写入 Oh My Pi 用量去重账本失败: {e}")))?;
+
     let usage = TokenUsage {
         input_tokens,
         output_tokens,

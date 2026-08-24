@@ -524,7 +524,8 @@ export function ProviderList({
                         : false
                 }
                 isStateChangeProtected={
-                  appId === "pi" && !isPiAuthoritativeStateReady
+                  (appId === "pi" && !isPiAuthoritativeStateReady) ||
+                  (appId === "ohmypi" && !isOhMyPiAuthoritativeStateReady)
                 }
                 onSetAsDefault={
                   onSetAsDefault
