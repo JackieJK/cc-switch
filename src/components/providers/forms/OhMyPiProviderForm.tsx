@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
 import { ChevronDown, ChevronRight, Download, Loader2, Plus, Trash2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -50,7 +51,7 @@ const API_FORMATS = [
 
 // Root-level keys owned by the curated form controls. Everything else in the
 // provider's settingsConfig is treated as an unmanaged passthrough and
-// preserved verbatim through the JSON escape hatch.
+// preserved verbatim through the YAML escape hatch.
 const ROOT_CONTROLLED_KEYS: Record<string, true> = {
   name: true,
   baseUrl: true,
@@ -138,9 +139,9 @@ function asObject(value: unknown): Record<string, unknown> {
     : {};
 }
 
-function parseJsonObject(value: string): Record<string, unknown> | null {
+function parseYamlObject(value: string): Record<string, unknown> | null {
   try {
-    const parsed: unknown = JSON.parse(value);
+    const parsed: unknown = parseYaml(value);
     return parsed && typeof parsed === "object" && !Array.isArray(parsed)
       ? (parsed as Record<string, unknown>)
       : null;
@@ -401,9 +402,12 @@ export function OhMyPiProviderForm({
   const [providerPassthrough, setProviderPassthrough] = useState<
     Record<string, unknown>
   >(() => objectWithout(initialConfig, ROOT_CONTROLLED_KEYS));
-  const [passthroughText, setPassthroughText] = useState(() =>
-    JSON.stringify(objectWithout(initialConfig, ROOT_CONTROLLED_KEYS), null, 2),
-  );
+  const [passthroughText, setPassthroughText] = useState(() => {
+    const passthrough = objectWithout(initialConfig, ROOT_CONTROLLED_KEYS);
+    return Object.keys(passthrough).length > 0
+      ? stringifyYaml(passthrough, { indent: 2 })
+      : "";
+  });
   const [includeModels, setIncludeModels] = useState(
     () => !isEdit || hasOwn(initialConfig, "models"),
   );
@@ -437,7 +441,7 @@ export function OhMyPiProviderForm({
   const hasConfigurationSelection = isEdit || selectedPresetId !== null;
   const isSettingsConfigValid =
     passthroughText.trim() === "" ||
-    parseJsonObject(passthroughText) !== null;
+    parseYamlObject(passthroughText) !== null;
   const isSubmitReady =
     form.watch("name").trim().length > 0 && isSettingsConfigValid;
 
@@ -447,7 +451,7 @@ export function OhMyPiProviderForm({
 
   const buildSettingsConfig = useCallback(
     (displayName: string): Record<string, unknown> => {
-      const parsedPassthrough = parseJsonObject(passthroughText);
+      const parsedPassthrough = parseYamlObject(passthroughText);
       const passthrough = parsedPassthrough ?? providerPassthrough;
       return buildOhMyPiSettingsConfig({
         passthrough,
@@ -584,7 +588,9 @@ export function OhMyPiProviderForm({
     includeCompatRef.current = hasOwn(presetConfig, "compat");
     const passthrough = objectWithout(presetConfig, ROOT_CONTROLLED_KEYS);
     setProviderPassthrough(passthrough);
-    setPassthroughText(JSON.stringify(passthrough, null, 2));
+    setPassthroughText(
+      Object.keys(passthrough).length > 0 ? stringifyYaml(passthrough) : "",
+    );
     setModels(preset.settingsConfig.models.map((model) => modelDraft(model)));
     setExpandedModelKeys(new Set());
     form.reset({
@@ -640,7 +646,7 @@ export function OhMyPiProviderForm({
 
   const handlePassthroughChange = (value: string) => {
     setPassthroughText(value);
-    const parsed = parseJsonObject(value);
+    const parsed = parseYamlObject(value);
     if (parsed) setProviderPassthrough(parsed);
   };
 
@@ -760,13 +766,13 @@ export function OhMyPiProviderForm({
       );
       if (!trimmedName) {
         throw new OhMyPiFormValidationError(
-          t("pi.form.nameRequired"),
+          t("ohmypi.form.nameRequired"),
           'input[name="name"]',
         );
       }
       if (!isEdit && !trimmedKey) {
         throw new OhMyPiFormValidationError(
-          t("pi.form.providerKeyRequired"),
+          t("ohmypi.form.providerKeyRequired"),
           "#ohmypi-provider-key",
         );
       }
@@ -775,14 +781,14 @@ export function OhMyPiProviderForm({
         const id = model.id.trim();
         if (id.length === 0) {
           throw new OhMyPiFormValidationError(
-            t("pi.form.modelIdRequired", { index: models.indexOf(model) + 1 }),
+            t("ohmypi.form.modelIdRequired", { index: models.indexOf(model) + 1 }),
             `#ohmypi-model-id-${model.key}`,
             model.key,
           );
         }
         if (seen.has(id)) {
           throw new OhMyPiFormValidationError(
-            t("pi.form.duplicateModel", { id }),
+            t("ohmypi.form.duplicateModel", { id }),
             `#ohmypi-model-id-${model.key}`,
             model.key,
           );
@@ -793,8 +799,8 @@ export function OhMyPiProviderForm({
             () =>
               positiveNumber(
                 model.contextWindow,
-                t("pi.form.positiveNumberRequired", {
-                  label: t("pi.form.contextWindow"),
+                t("ohmypi.form.positiveNumberRequired", {
+                  label: t("ohmypi.form.contextWindow"),
                 }),
                 `#ohmypi-model-context-window-${model.key}`,
               ),
@@ -806,8 +812,8 @@ export function OhMyPiProviderForm({
             () =>
               positiveNumber(
                 model.maxTokens,
-                t("pi.form.positiveNumberRequired", {
-                  label: t("pi.form.maxTokens"),
+                t("ohmypi.form.positiveNumberRequired", {
+                  label: t("ohmypi.form.maxTokens"),
                 }),
                 `#ohmypi-model-max-tokens-${model.key}`,
               ),
@@ -821,7 +827,7 @@ export function OhMyPiProviderForm({
           () =>
             validateAbsoluteHttpUrl(
               baseUrl.trim(),
-              t("pi.form.absoluteHttpUrlRequired", {
+              t("ohmypi.form.absoluteHttpUrlRequired", {
                 label: t("opencode.baseUrl", { defaultValue: "Base URL" }),
               }),
             ),
@@ -919,7 +925,7 @@ export function OhMyPiProviderForm({
             role="status"
             className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-900 dark:text-amber-200"
           >
-            {t("pi.form.fixJsonFirst")}
+            {t("ohmypi.form.fixYamlFirst")}
           </p>
         )}
 
@@ -934,7 +940,7 @@ export function OhMyPiProviderForm({
                 isEdit || selectedPresetId === "custom" ? (
                   <div className="space-y-2">
                     <Label htmlFor="ohmypi-provider-key">
-                      {t("pi.form.providerKey")}
+                      {t("ohmypi.form.providerKey")}
                       <span
                         aria-hidden="true"
                         className="text-destructive ml-1"
@@ -995,7 +1001,7 @@ export function OhMyPiProviderForm({
 
             <ApiKeySection
               id="ohmypi-api-key"
-              label={t("pi.form.credential")}
+              label={t("ohmypi.form.credential")}
               value={apiKey}
               onChange={handleApiKeyChange}
               category={category}
@@ -1025,15 +1031,15 @@ export function OhMyPiProviderForm({
 
             <StructuredOptionsEditor
               id="ohmypi-provider-compat"
-              title={t("pi.form.compatibility")}
-              hint={t("pi.form.compatibilityHint")}
-              addLabel={t("pi.form.addCompatibilityOption")}
-              emptyLabel={t("pi.form.noCompatibilityOptions")}
-              keyLabel={t("pi.form.optionKey")}
-              valueLabel={t("pi.form.optionValue")}
+              title={t("ohmypi.form.compatibility")}
+              hint={t("ohmypi.form.compatibilityHint")}
+              addLabel={t("ohmypi.form.addCompatibilityOption")}
+              emptyLabel={t("ohmypi.form.noCompatibilityOptions")}
+              keyLabel={t("ohmypi.form.optionKey")}
+              valueLabel={t("ohmypi.form.optionValue")}
               keyPlaceholder="supportsDeveloperRole"
               valuePlaceholder="false"
-              removeLabel={t("pi.form.removeCompatibilityOption")}
+              removeLabel={t("ohmypi.form.removeCompatibilityOption")}
               options={providerCompat}
               onOptionsChange={handleProviderCompatChange}
             />
@@ -1085,7 +1091,7 @@ export function OhMyPiProviderForm({
                     className="h-7 gap-1"
                   >
                     <Plus className="h-3.5 w-3.5" />
-                    {t("pi.form.addModel")}
+                    {t("ohmypi.form.addModel")}
                   </Button>
                 </div>
               </div>
@@ -1099,7 +1105,7 @@ export function OhMyPiProviderForm({
                 </p>
               ) : models.length === 0 ? (
                 <p role="status" className="py-2 text-sm text-muted-foreground">
-                  {t("pi.form.noModels", {
+                  {t("ohmypi.form.noModels", {
                     defaultValue: "暂无模型配置",
                   })}
                 </p>
@@ -1108,7 +1114,7 @@ export function OhMyPiProviderForm({
                   <div className="flex items-center gap-2 px-1 text-xs text-muted-foreground">
                     <span className="w-9" />
                     <span className="flex-1">
-                      {t("pi.form.modelId")}
+                      {t("ohmypi.form.modelId")}
                       <span
                         aria-hidden="true"
                         className="ml-1 text-destructive"
@@ -1117,7 +1123,7 @@ export function OhMyPiProviderForm({
                       </span>
                     </span>
                     <span className="flex-1">
-                      {t("pi.form.modelName")}
+                      {t("ohmypi.form.modelName")}
                     </span>
                     <span className="w-9" />
                   </div>
@@ -1131,7 +1137,7 @@ export function OhMyPiProviderForm({
                             variant="ghost"
                             size="icon"
                             onClick={() => toggleModelDetails(model.key)}
-                            aria-label={t("pi.form.toggleModelDetails", {
+                            aria-label={t("ohmypi.form.toggleModelDetails", {
                               defaultValue: "展开或收起模型详情",
                             })}
                             className="h-9 w-9 shrink-0"
@@ -1150,7 +1156,7 @@ export function OhMyPiProviderForm({
                                 changeModelId(model.key, event.target.value)
                               }
                               placeholder="model-id"
-                              aria-label={t("pi.form.modelId")}
+                              aria-label={t("ohmypi.form.modelId")}
                               required
                               className="min-w-0 flex-1"
                             />
@@ -1170,8 +1176,8 @@ export function OhMyPiProviderForm({
                                 hasName: true,
                               })
                             }
-                            placeholder={t("pi.form.modelNamePlaceholder")}
-                            aria-label={t("pi.form.modelName")}
+                            placeholder={t("ohmypi.form.modelNamePlaceholder")}
+                            aria-label={t("ohmypi.form.modelName")}
                             className="min-w-0 flex-1"
                           />
                           <Button
@@ -1179,7 +1185,7 @@ export function OhMyPiProviderForm({
                             variant="ghost"
                             size="icon"
                             onClick={() => removeModel(model.key)}
-                            aria-label={t("pi.form.removeModel")}
+                            aria-label={t("ohmypi.form.removeModel")}
                             className="h-9 w-9 shrink-0 text-muted-foreground hover:text-destructive"
                           >
                             <Trash2 className="h-4 w-4" />
@@ -1194,11 +1200,11 @@ export function OhMyPiProviderForm({
                                   htmlFor={`ohmypi-model-reasoning-${model.key}`}
                                   className="cursor-pointer"
                                 >
-                                  {t("pi.form.reasoning")}
+                                  {t("ohmypi.form.reasoning")}
                                 </Label>
                                 <Switch
                                   id={`ohmypi-model-reasoning-${model.key}`}
-                                  checked={model.reasoning === true}
+                                  checked={model.reasoning}
                                   onCheckedChange={(checked) =>
                                     updateModelOverride(model.key, {
                                       reasoning: checked,
@@ -1212,7 +1218,7 @@ export function OhMyPiProviderForm({
                                   htmlFor={`ohmypi-model-image-input-${model.key}`}
                                   className="cursor-pointer"
                                 >
-                                  {t("pi.form.imageInput")}
+                                  {t("ohmypi.form.imageInput")}
                                 </Label>
                                 <Switch
                                   id={`ohmypi-model-image-input-${model.key}`}
@@ -1270,12 +1276,12 @@ export function OhMyPiProviderForm({
                               />
                             </Field>
                             <Field
-                              label={t("pi.form.contextWindow")}
+                              label={t("ohmypi.form.contextWindow")}
                               htmlFor={`ohmypi-model-context-window-${model.key}`}
                             >
                               <Input
                                 id={`ohmypi-model-context-window-${model.key}`}
-                                aria-label={t("pi.form.contextWindow")}
+                                aria-label={t("ohmypi.form.contextWindow")}
                                 type="number"
                                 step="any"
                                 min="1"
@@ -1291,12 +1297,12 @@ export function OhMyPiProviderForm({
                               />
                             </Field>
                             <Field
-                              label={t("pi.form.maxTokens")}
+                              label={t("ohmypi.form.maxTokens")}
                               htmlFor={`ohmypi-model-max-tokens-${model.key}`}
                             >
                               <Input
                                 id={`ohmypi-model-max-tokens-${model.key}`}
-                                aria-label={t("pi.form.maxTokens")}
+                                aria-label={t("ohmypi.form.maxTokens")}
                                 type="number"
                                 step="any"
                                 min="1"
@@ -1368,7 +1374,7 @@ export function OhMyPiProviderForm({
             {!showAdvanced && (
               <p className="mt-1 ml-1 text-xs text-muted-foreground">
                 {t("ohmypi.form.advancedHint", {
-                  defaultValue: "包含其他配置字段（JSON，原样保留）。",
+                  defaultValue: "包含其他配置字段（YAML，原样保留）。",
                 })}
               </p>
             )}
@@ -1380,7 +1386,7 @@ export function OhMyPiProviderForm({
                   <FormItem className="space-y-2">
                     <FormLabel>
                       {t("ohmypi.form.passthroughLabel", {
-                        defaultValue: "其他字段（JSON，原样保留）",
+                        defaultValue: "其他字段（YAML，原样保留）",
                       })}
                     </FormLabel>
                     <textarea
@@ -1389,9 +1395,11 @@ export function OhMyPiProviderForm({
                       onChange={(event) =>
                         handlePassthroughChange(event.target.value)
                       }
-                      placeholder='{"compat": {}, "discovery": {}}'
+                      placeholder='disableStrictTools: false
+discovery:
+  type: proxy'
                       aria-label={t("ohmypi.form.passthroughLabel", {
-                        defaultValue: "其他字段（JSON，原样保留）",
+                        defaultValue: "其他字段（YAML，原样保留）",
                       })}
                     />
                     <FormMessage />
