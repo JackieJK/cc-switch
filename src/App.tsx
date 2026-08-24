@@ -52,6 +52,7 @@ import { useScanUnmanagedSkills } from "@/hooks/useSkills";
 import {
   extractErrorMessage,
   translatePiProviderMutationError,
+  translateOhMyPiProviderMutationError
 } from "@/utils/errorUtils";
 import { isTextEditableTarget } from "@/utils/domUtils";
 import { deepClone } from "@/utils/deepClone";
@@ -112,6 +113,7 @@ import {
   DEFAULT_VISIBLE_APPS,
   isProxyAppId,
 } from "@/config/appConfig";
+import {invalidateOhMyPiProviderCaches} from "@/lib/query/ohmypi";
 
 type View =
   | "providers"
@@ -239,6 +241,7 @@ function App() {
       sharedFeatureApp !== "openclaw" &&
       sharedFeatureApp !== "gemini" &&
       sharedFeatureApp !== "hermes" &&
+      sharedFeatureApp !== "ohmypi" &&
       sharedFeatureApp !== "pi"
     ) {
       setCurrentView("providers");
@@ -316,6 +319,7 @@ function App() {
     sharedFeatureApp === "openclaw" ||
     sharedFeatureApp === "gemini" ||
     sharedFeatureApp === "hermes" ||
+    sharedFeatureApp === "ohmypi" ||
     sharedFeatureApp === "pi";
   const hasMcpSupport = sharedFeatureApp !== "pi";
 
@@ -362,6 +366,36 @@ function App() {
     }
   };
 
+  const handleEnableOhMyPiProvider = async (provider: Provider) => {
+    try {
+      await providersApi.switch(provider.id, "ohmypi");
+      await invalidateOhMyPiProviderCaches(queryClient);
+      await providersApi.updateTrayMenu().catch((error) => {
+        console.error(
+            "Failed to update tray menu after enabling Oh My Pi provider",
+            error,
+        );
+      });
+      toast.success(
+          t("ohmypi.provider.enabled", {
+            defaultValue: "已在 Oh My Pi 中启用",
+          }),
+          { closeButton: true },
+      );
+    } catch (error) {
+      const detail = extractErrorMessage(error);
+      toast.error(
+          t("ohmypi.provider.enableFailed", {
+            defaultValue: "无法在 Oh My Pi 中启用此供应商",
+          }),
+          {
+            description:
+                translateOhMyPiProviderMutationError(detail, t) || detail || undefined,
+            closeButton: true,
+          },
+      );
+    }
+  };
   const disableOmoMutation = useDisableCurrentOmo();
   const handleDisableOmo = () => {
     disableOmoMutation.mutate(undefined, {
@@ -758,15 +792,21 @@ function App() {
         await queryClient.invalidateQueries({
           queryKey: hermesKeys.liveProviderIds,
         });
+      } else if (activeApp === "ohmypi") {
+        await invalidateOhMyPiProviderCaches(queryClient);
       }
       toast.success(
         activeApp === "pi"
           ? t("pi.provider.removed", {
               defaultValue: "已从 Pi 移除",
             })
-          : t("notifications.removeFromConfigSuccess", {
-              defaultValue: "已从配置移除",
-            }),
+          : activeApp === "ohmypi"
+            ? t("ohmypi.provider.removed", {
+                defaultValue: "已从 Oh My Pi 移除",
+              })
+            : t("notifications.removeFromConfigSuccess", {
+                defaultValue: "已从配置移除",
+              }),
         { closeButton: true },
       );
     } else {
@@ -1113,7 +1153,9 @@ function App() {
                       onSwitch={
                         activeApp === "pi"
                           ? handleEnablePiProvider
-                          : switchProvider
+                          : activeApp === "ohmypi"
+                            ? handleEnableOhMyPiProvider
+                            : switchProvider
                       }
                       onEdit={(provider) => {
                         setEditingProvider(provider);
@@ -1425,7 +1467,9 @@ function App() {
                     <Plus className="w-4 h-4 mr-2" />
                     {t(
                       promptPrimaryAction === "template"
-                        ? "pi.prompts.newTemplate"
+                        ? sharedFeatureApp === "ohmypi"
+                          ? "ohmypi.prompts.newTemplate"
+                          : "pi.prompts.newTemplate"
                         : "prompts.add",
                     )}
                   </Button>

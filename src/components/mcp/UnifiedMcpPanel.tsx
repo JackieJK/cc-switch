@@ -142,6 +142,7 @@ const UnifiedMcpPanel = React.forwardRef<
       opencode: 0,
       openclaw: 0,
       hermes: 0,
+      ohmypi: 0,
     };
     serverEntries.forEach(([_, server]) => {
       for (const app of MCP_APP_IDS) {
@@ -378,6 +379,16 @@ interface UnifiedMcpListItemProps {
   isLast?: boolean;
 }
 
+function getInheritedSourceLabel(apps: McpServer["apps"]): string | null {
+  // ohmypi auto-discovers MCP servers from other enabled agents. When a server
+  // is not explicitly enabled for ohmypi but is enabled elsewhere, surface the
+  // concrete source instead of silently implying ohmypi manages it.
+  if (apps.ohmypi) return null;
+  const source = MCP_APP_IDS.find((app) => Boolean(apps[app]));
+  if (!source) return null;
+  return `from ${source}`;
+}
+
 const UnifiedMcpListItem: React.FC<UnifiedMcpListItemProps> = ({
   id,
   server,
@@ -438,6 +449,17 @@ const UnifiedMcpListItem: React.FC<UnifiedMcpListItemProps> = ({
           </p>
         )}
       </div>
+
+      {getInheritedSourceLabel(server.apps) && (
+        <span
+          className="inline-flex items-center rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold text-amber-700 dark:bg-amber-900/40 dark:text-amber-300 flex-shrink-0"
+          title={t("mcp.unifiedPanel.inheritedFrom", {
+            defaultValue: "由其他 Agent 自动发现",
+          })}
+        >
+          {getInheritedSourceLabel(server.apps)}
+        </span>
+      )}
 
       <AppToggleGroup
         apps={server.apps}

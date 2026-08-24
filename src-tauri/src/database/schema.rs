@@ -67,7 +67,8 @@ impl Database {
             enabled_claude BOOLEAN NOT NULL DEFAULT 0, enabled_codex BOOLEAN NOT NULL DEFAULT 0,
             enabled_gemini BOOLEAN NOT NULL DEFAULT 0, enabled_grokbuild BOOLEAN NOT NULL DEFAULT 0,
             enabled_opencode BOOLEAN NOT NULL DEFAULT 0,
-            enabled_hermes BOOLEAN NOT NULL DEFAULT 0
+            enabled_hermes BOOLEAN NOT NULL DEFAULT 0,
+            enabled_ohmypi BOOLEAN NOT NULL DEFAULT 0
         )",
             [],
         )
@@ -97,6 +98,7 @@ impl Database {
             enabled_grokbuild BOOLEAN NOT NULL DEFAULT 0,
             enabled_opencode BOOLEAN NOT NULL DEFAULT 0,
             enabled_hermes BOOLEAN NOT NULL DEFAULT 0,
+            enabled_ohmypi BOOLEAN NOT NULL DEFAULT 0,
             installed_at INTEGER NOT NULL DEFAULT 0,
             content_hash TEXT,
             updated_at INTEGER NOT NULL DEFAULT 0
@@ -437,6 +439,17 @@ impl Database {
             .map_err(|e| AppError::Database(format!("开启迁移 savepoint 失败: {e}")))?;
 
         let mut version = Self::get_user_version(conn)?;
+
+        // 本分支曾在 v17 之上抬升 user_version=18（仅新增 enabled_ohmypi 两列）。
+        // 检出后回写为 17，官方版（最高支持 v17）即可重新打开同一数据库；
+        // 结构不符的 18（如将来官方版真正的 v18）仍会落入下方「版本过新」报错分支。
+        if version == SCHEMA_VERSION + 1 && Self::is_legacy_v18_ohmypi(conn)? {
+            log::info!(
+                "检测到本分支遗留的 v18 数据库（仅含 Oh My Pi 增量列），回写为 v17"
+            );
+            Self::set_user_version(conn, SCHEMA_VERSION)?;
+            version = SCHEMA_VERSION;
+        }
 
         if version > SCHEMA_VERSION {
             conn.execute("ROLLBACK TO schema_migration;", []).ok();
@@ -1563,6 +1576,15 @@ impl Database {
         )
         .map_err(|error| AppError::Database(format!("创建会话用量去重账本失败: {error}")))?;
         Ok(())
+    }
+
+    /// 判定数据库是否为本分支遗留的 v18：仅含 Oh My Pi 增量列（enabled_ohmypi）。
+    /// 此时结构与 v17 + 增量列等价，可安全回写为 v17，官方版（最高支持 v17）即可重新打开。
+    pub(crate) fn is_legacy_v18_ohmypi(conn: &Connection) -> Result<bool, AppError> {
+        Ok(Self::table_exists(conn, "mcp_servers")?
+            && Self::table_exists(conn, "skills")?
+            && Self::has_column(conn, "mcp_servers", "enabled_ohmypi")?
+            && Self::has_column(conn, "skills", "enabled_ohmypi")?)
     }
 
     /// 插入默认模型定价数据
