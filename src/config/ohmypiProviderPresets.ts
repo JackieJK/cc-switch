@@ -1,4 +1,4 @@
-import { piProviderPresets, type PiPresetModel, type PiProviderPreset } from "./piProviderPresets";
+import { piProviderPresets, type PiProviderPreset } from "./piProviderPresets";
 
 /**
  * Oh My Pi provider catalog.
