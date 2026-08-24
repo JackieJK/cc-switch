@@ -43,11 +43,18 @@ import { ohmypiProviderPresets } from "@/config/ohmypiProviderPresets";
 
 import type { ProviderCategory } from "@/types";
 
+// Allowed `api` values per ohmypi models.yml (see oh-my-pi docs/models.md).
 const API_FORMATS = [
-  "openai-completions",
-  "openai-responses",
-  "anthropic-messages",
-] as const;
+  { value: "openai-completions", label: "OpenAI Chat Completions" },
+  { value: "openai-responses", label: "OpenAI Responses" },
+  { value: "openai-codex-responses", label: "OpenAI Codex Responses" },
+  { value: "azure-openai-responses", label: "Azure OpenAI Responses" },
+  { value: "anthropic-messages", label: "Anthropic Messages" },
+  { value: "bedrock-converse-stream", label: "Amazon Bedrock" },
+  { value: "google-generative-ai", label: "Google Generative AI" },
+  { value: "google-gemini-cli", label: "Google Gemini CLI" },
+  { value: "google-vertex", label: "Google Vertex" },
+] as const satisfies ReadonlyArray<{ value: string; label: string }>;
 
 // Root-level keys owned by the curated form controls. Everything else in the
 // provider's settingsConfig is treated as an unmanaged passthrough and
@@ -206,9 +213,9 @@ function supportsImageInput(value: unknown): boolean {
 function withImageInput(value: unknown, enabled: boolean): string[] {
   const additionalInputTypes = Array.isArray(value)
     ? value.filter(
-        (item): item is string =>
-          typeof item === "string" && item !== "text" && item !== "image",
-      )
+      (item): item is string =>
+        typeof item === "string" && item !== "text" && item !== "image",
+    )
     : [];
   return [
     "text",
@@ -655,14 +662,14 @@ export function OhMyPiProviderForm({
       current.map((model) =>
         model.key === key
           ? {
-              ...model,
-              id,
-              name:
-                model.hasName &&
+            ...model,
+            id,
+            name:
+              model.hasName &&
                 (model.name.length === 0 || model.name === model.id)
-                  ? id
-                  : model.name,
-            }
+                ? id
+                : model.name,
+          }
           : model,
       ),
     );
@@ -888,6 +895,9 @@ export function OhMyPiProviderForm({
     }),
     [t],
   );
+  const isKnownApiFormat = API_FORMATS.some(
+    (format) => format.value === api,
+  );
 
   return (
     <Form {...form}>
@@ -961,13 +971,13 @@ export function OhMyPiProviderForm({
                     <p className="text-xs text-muted-foreground">
                       {isEdit
                         ? t("opencode.providerKeyLockedHint", {
-                            defaultValue:
-                              "该供应商已添加到应用配置中，供应商标识不可修改",
-                          })
+                          defaultValue:
+                            "该供应商已添加到应用配置中，供应商标识不可修改",
+                        })
                         : t("opencode.providerKeyHint", {
-                            defaultValue:
-                              "配置文件中的唯一标识符，只能使用小写字母、数字和连字符",
-                          })}
+                          defaultValue:
+                            "配置文件中的唯一标识符，只能使用小写字母、数字和连字符",
+                        })}
                     </p>
                   </div>
                 ) : undefined
@@ -986,10 +996,13 @@ export function OhMyPiProviderForm({
                 </SelectTrigger>
                 <SelectContent>
                   {API_FORMATS.map((format) => (
-                    <SelectItem key={format} value={format}>
-                      {format}
+                    <SelectItem key={format.value} value={format.value}>
+                      {format.label}
                     </SelectItem>
                   ))}
+                  {!isKnownApiFormat && api && (
+                    <SelectItem value={api}>{api}</SelectItem>
+                  )}
                 </SelectContent>
               </Select>
               <p className="text-xs text-muted-foreground">
@@ -1143,9 +1156,8 @@ export function OhMyPiProviderForm({
                             className="h-9 w-9 shrink-0"
                           >
                             <ChevronRight
-                              className={`h-4 w-4 transition-transform motion-reduce:transition-none ${
-                                isExpanded ? "rotate-90" : ""
-                              }`}
+                              className={`h-4 w-4 transition-transform motion-reduce:transition-none ${isExpanded ? "rotate-90" : ""
+                                }`}
                             />
                           </Button>
                           <div className="flex min-w-0 flex-1 gap-1">
