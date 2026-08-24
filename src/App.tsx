@@ -34,6 +34,7 @@ import type { EnvConflict } from "@/types/env";
 import { proxyKeys, useProvidersQuery, useSettingsQuery } from "@/lib/query";
 import {
   piApi,
+  ohmypiApi,
   providersApi,
   settingsApi,
   type AppId,
@@ -854,7 +855,8 @@ function App() {
       activeApp === "opencode" ||
       activeApp === "openclaw" ||
       activeApp === "hermes" ||
-      activeApp === "pi"
+      activeApp === "pi" ||
+      activeApp === "ohmypi"
     ) {
       let liveProviderIds: string[] = [];
       try {
@@ -874,12 +876,19 @@ function App() {
                     queryKey: hermesKeys.liveProviderIds,
                     queryFn: () => providersApi.getHermesLiveProviderIds(),
                   })
-                : (
-                    await queryClient.ensureQueryData({
-                      queryKey: ["pi", "currentState"],
-                      queryFn: () => piApi.getCurrentState(),
-                    })
-                  ).enabledProviderIds;
+                : activeApp === "ohmypi"
+                  ? (
+                      await queryClient.ensureQueryData({
+                        queryKey: ["ohmypi", "currentState"],
+                        queryFn: () => ohmypiApi.getCurrentState(),
+                      })
+                    ).enabledProviderIds
+                  : (
+                      await queryClient.ensureQueryData({
+                        queryKey: ["pi", "currentState"],
+                        queryFn: () => piApi.getCurrentState(),
+                      })
+                    ).enabledProviderIds;
       } catch (error) {
         console.error(
           "[App] Failed to load live provider IDs for duplication",
