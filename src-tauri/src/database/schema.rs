@@ -440,17 +440,6 @@ impl Database {
 
         let mut version = Self::get_user_version(conn)?;
 
-        // 本分支曾在 v17 之上抬升 user_version=18（仅新增 enabled_ohmypi 两列）。
-        // 检出后回写为 17，官方版（最高支持 v17）即可重新打开同一数据库；
-        // 结构不符的 18（如将来官方版真正的 v18）仍会落入下方「版本过新」报错分支。
-        if version == SCHEMA_VERSION + 1 && Self::is_legacy_v18_ohmypi(conn)? {
-            log::info!(
-                "检测到本分支遗留的 v18 数据库（仅含 Oh My Pi 增量列），回写为 v17"
-            );
-            Self::set_user_version(conn, SCHEMA_VERSION)?;
-            version = SCHEMA_VERSION;
-        }
-
         if version > SCHEMA_VERSION {
             conn.execute("ROLLBACK TO schema_migration;", []).ok();
             conn.execute("RELEASE schema_migration;", []).ok();
@@ -548,6 +537,11 @@ impl Database {
                         log::info!("迁移数据库从 v16 到 v17（添加会话用量持久去重账本）");
                         Self::migrate_v16_to_v17(conn)?;
                         Self::set_user_version(conn, 17)?;
+                    }
+                    17 => {
+                        log::info!("迁移数据库从 v17 到 v18（Skills/MCP 添加 Oh My Pi 支持）");
+                        Self::migrate_v17_to_v18(conn)?;
+                        Self::set_user_version(conn, 18)?;
                     }
                     _ => {
                         return Err(AppError::Database(format!(
@@ -1578,13 +1572,25 @@ impl Database {
         Ok(())
     }
 
-    /// 判定数据库是否为本分支遗留的 v18：仅含 Oh My Pi 增量列（enabled_ohmypi）。
-    /// 此时结构与 v17 + 增量列等价，可安全回写为 v17，官方版（最高支持 v17）即可重新打开。
-    pub(crate) fn is_legacy_v18_ohmypi(conn: &Connection) -> Result<bool, AppError> {
-        Ok(Self::table_exists(conn, "mcp_servers")?
-            && Self::table_exists(conn, "skills")?
-            && Self::has_column(conn, "mcp_servers", "enabled_ohmypi")?
-            && Self::has_column(conn, "skills", "enabled_ohmypi")?)
+    /// v17 -> v18: persist Oh My Pi enablement for unified Skills and MCP.
+    fn migrate_v17_to_v18(conn: &Connection) -> Result<(), AppError> {
+        if Self::table_exists(conn, "mcp_servers")? {
+            Self::add_column_if_missing(
+                conn,
+                "mcp_servers",
+                "enabled_ohmypi",
+                "BOOLEAN NOT NULL DEFAULT 0",
+            )?;
+        }
+        if Self::table_exists(conn, "skills")? {
+            Self::add_column_if_missing(
+                conn,
+                "skills",
+                "enabled_ohmypi",
+                "BOOLEAN NOT NULL DEFAULT 0",
+            )?;
+        }
+        Ok(())
     }
 
     /// 插入默认模型定价数据
@@ -3431,4 +3437,74 @@ mod tests {
         )?;
         Ok(())
     }
+
+    #[test]
+    fn migrate_v17_to_v18_adds_ohmypi_skill_and_mcp_flags() -> Result<(), AppError> {
+        // v17 基表形态说明:
+        // - enabled_hermes 只是 v10 起就存在的既有标志列,用于证明 ALTER 保留原值
+        //   (与 migrate_v14_to_v15 测试用 enabled_codex 同理);
+        // - session_usage_dedup 是 v17 引入的唯一表,显式声明以验证升级不被破坏。
+        let conn = Connection::open_in_memory()?;
+        conn.execute_batch(
+            "CREATE TABLE mcp_servers (
+                id TEXT PRIMARY KEY,
+                enabled_hermes BOOLEAN NOT NULL DEFAULT 0
+            );
+            CREATE TABLE skills (
+                id TEXT PRIMARY KEY,
+                enabled_hermes BOOLEAN NOT NULL DEFAULT 0
+            );
+            CREATE TABLE session_usage_dedup (
+                data_source TEXT NOT NULL,
+                request_id TEXT NOT NULL,
+                semantic_id TEXT NOT NULL,
+                has_entry_id INTEGER NOT NULL DEFAULT 0,
+                PRIMARY KEY (data_source, request_id)
+            );",
+        )?;
+        conn.execute(
+            "INSERT INTO mcp_servers (id, enabled_hermes) VALUES ('mcp-1', 1)",
+            [],
+        )?;
+        conn.execute(
+            "INSERT INTO skills (id, enabled_hermes) VALUES ('skill-1', 1)",
+            [],
+        )?;
+        conn.execute(
+            "INSERT INTO session_usage_dedup
+             (data_source, request_id, semantic_id, has_entry_id)
+             VALUES ('pi_session', 'request', 'semantic', 1)",
+            [],
+        )?;
+        Database::set_user_version(&conn, 17)?;
+
+        Database::apply_schema_migrations_on_conn(&conn)?;
+
+        assert_eq!(Database::get_user_version(&conn)?, SCHEMA_VERSION);
+        assert!(Database::has_column(&conn, "mcp_servers", "enabled_ohmypi")?);
+        assert!(Database::has_column(&conn, "skills", "enabled_ohmypi")?);
+        // v17 引入的会话去重账本及其数据在升级后必须保留
+        assert!(Database::table_exists(&conn, "session_usage_dedup")?);
+        let dedup_count: i64 = conn.query_row(
+            "SELECT COUNT(*) FROM session_usage_dedup",
+            [],
+            |row| row.get(0),
+        )?;
+        assert_eq!(dedup_count, 1);
+        let mcp_values: (i64, i64) = conn.query_row(
+            "SELECT enabled_hermes, enabled_ohmypi FROM mcp_servers WHERE id = 'mcp-1'",
+            [],
+            |row| Ok((row.get(0)?, row.get(1)?)),
+        )?;
+        let skill_values: (i64, i64) = conn.query_row(
+            "SELECT enabled_hermes, enabled_ohmypi FROM skills WHERE id = 'skill-1'",
+            [],
+            |row| Ok((row.get(0)?, row.get(1)?)),
+        )?;
+        assert_eq!(mcp_values, (1, 0));
+        assert_eq!(skill_values, (1, 0));
+
+        Ok(())
+    }
+
 }
