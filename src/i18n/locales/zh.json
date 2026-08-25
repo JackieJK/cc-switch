@@ -1168,6 +1168,22 @@
       "noTemplateResults": "没有匹配的模板",
       "deleteTemplateTitle": "删除 /{{slug}}？",
       "deleteTemplateMessage": "此操作会永久删除 prompts/{{slug}}.md。"
+    },
+    "autoDiscovery": {
+      "dialog": {
+        "title": "关闭 Oh My Pi 的 Agent 自动发现？",
+        "reason": "Oh My Pi（omp）会自动发现并加载以下其他 Agent 的 MCP 服务器与技能。启用管理后这些来源仍会被 omp 自动加载，cc-switch 显示的 MCP/技能状态将与 omp 实际加载的不一致。为保持二者一致，请在启用管理前关闭 omp 对这些 Agent 的自动发现。",
+        "agentListHeading": "omp 会自动发现的 Agent 来源：",
+        "scope": "此操作将 12 个发现源 id 并入 omp 用户级 config.yml 的 disabledProviders（保留既有条目与其余键）。omp 自身来源（.omp、内置、OMP 扩展包、AGENTS.md）与 .mcp.json / SSH 来源不受影响，不修改任何其他 Agent 的配置文件。",
+        "effectTiming": "于 Oh My Pi 重新加载（新会话或 /reload）后生效。",
+        "confirmBtn": "确认并关闭自动发现"
+      },
+      "disabled": {
+        "toast": "已关闭 Oh My Pi 自动发现。请重新加载 Oh My Pi（新会话或 /reload）后生效。"
+      },
+      "disableFailed": {
+        "toast": "关闭 Oh My Pi 自动发现失败，未启用 Oh My Pi 管理。"
+      }
     }
   },
   "appSwitcher": {

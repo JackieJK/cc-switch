@@ -48,7 +48,7 @@ pub struct VisibleApps {
     pub hermes: bool,
     #[serde(default = "default_true")]
     pub pi: bool,
-    #[serde(default = "default_true")]
+    #[serde(default)]
     pub ohmypi: bool,
 }
 
@@ -64,7 +64,7 @@ impl Default for VisibleApps {
             openclaw: true,
             hermes: false, // 默认不显示，需用户手动启用
             pi: true,
-            ohmypi: true,
+            ohmypi: false, // 默认不显示，需用户手动启用
         }
     }
 }

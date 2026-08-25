@@ -6,6 +6,19 @@ export interface OhMyPiCurrentState {
   defaultProviderId: string | null;
 }
 
+/** omp agent auto-discovery snapshot used by the enable-ohmypi guard. */
+export interface OhMyPiAgentDiscoveryState {
+  needsConfirmation: boolean;
+  requiredProviderIds: string[];
+  missingProviderIds: string[];
+}
+
+/** ` for confirm dialog listing. */
+export interface OhMyPiAgentDiscoveryProvider {
+  id: string;
+  displayName: string;
+}
+
 export const ohmypiApi = {
   async getCurrentState(): Promise<OhMyPiCurrentState> {
     return await invoke("get_ohmypi_current_state");
@@ -19,5 +32,17 @@ export const ohmypiApi = {
       id,
       usageScript,
     });
+  },
+
+  async getAgentDiscoveryState(): Promise<OhMyPiAgentDiscoveryState> {
+    return await invoke("get_ohmypi_agent_discovery_state");
+  },
+
+  async getAgentDiscoveryProviders(): Promise<OhMyPiAgentDiscoveryProvider[]> {
+    return await invoke("get_ohmypi_agent_discovery_providers");
+  },
+
+  async disableAgentAutoDiscovery(): Promise<string[]> {
+    return await invoke("disable_ohmypi_agent_auto_discovery");
   },
 };

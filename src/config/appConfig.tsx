@@ -39,7 +39,7 @@ export const DEFAULT_VISIBLE_APPS: VisibleApps = {
   openclaw: true,
   hermes: true,
   pi: true,
-  ohmypi: true,
+  ohmypi: false,
 };
 
 /** App IDs shown in Skills panels. */

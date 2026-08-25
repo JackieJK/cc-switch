@@ -1168,6 +1168,22 @@
       "noTemplateResults": "一致するテンプレートがありません",
       "deleteTemplateTitle": "/{{slug}} を削除しますか？",
       "deleteTemplateMessage": "prompts/{{slug}}.md を完全に削除します。"
+    },
+    "autoDiscovery": {
+      "dialog": {
+        "title": "Oh My Pi の Agent 自動様見を無効化しますか？",
+        "reason": "Oh My Pi（omp）は以下の他 Agent から MCP サーバーとスキルを自動様見します。管理を有効化してもこれらのソースは omp により自動読み込まれ、cc-switch の MCP/スキル状態と omp の実際の読み込みが一致しません。一致を保つため、管理有効化前に omp の自動様見を無効化してください。",
+        "agentListHeading": "omp が自動様見する Agent ソース：",
+        "scope": "この操作は 12 個の発見ソース id を omp ユーザーレベル config.yml の disabledProviders に仵合します（既存エントリーと他のキーを保持）。omp 自身のソース（.omp、内蔵、OMP 拡張パック、AGENTS.md）と .mcp.json / SSH ソースは影響を受けず、他 Agent の設定ファイルは変更されません。",
+        "effectTiming": "次の omp セッション、または /reload 後に有効になります。",
+        "confirmBtn": "確認して自動様見を無効化"
+      },
+      "disabled": {
+        "toast": "Oh My Pi の自動様見を無効化しました。Oh My Pi をリロード（新セッションまたは /reload）してから有効になります。"
+      },
+      "disableFailed": {
+        "toast": "Oh My Pi の自動様見無効化に失敗しました。Oh My Pi 管理は有効化されていません。"
+      }
     }
   },
   "appSwitcher": {
