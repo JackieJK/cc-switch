@@ -1,7 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
-import { ChevronDown, ChevronRight, Download, Loader2, Plus, Trash2 } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronRight,
+  Download,
+  Loader2,
+  Plus,
+  Trash2,
+} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -115,10 +122,7 @@ class OhMyPiFormValidationError extends Error {
   }
 }
 
-function validateOhMyPiField<T>(
-  operation: () => T,
-  fieldSelector: string,
-): T {
+function validateOhMyPiField<T>(operation: () => T, fieldSelector: string): T {
   try {
     return operation();
   } catch (error) {
@@ -213,9 +217,9 @@ function supportsImageInput(value: unknown): boolean {
 function withImageInput(value: unknown, enabled: boolean): string[] {
   const additionalInputTypes = Array.isArray(value)
     ? value.filter(
-      (item): item is string =>
-        typeof item === "string" && item !== "text" && item !== "image",
-    )
+        (item): item is string =>
+          typeof item === "string" && item !== "text" && item !== "image",
+      )
     : [];
   return [
     "text",
@@ -242,7 +246,9 @@ function modelDraft(
     hasName: hasOwn(model, "name"),
     reasoning: model.reasoning === true,
     hasReasoning: hasOwn(model, "reasoning"),
-    thinking: hasOwn(model, "thinking") ? formatOptionValue(model.thinking) : "",
+    thinking: hasOwn(model, "thinking")
+      ? formatOptionValue(model.thinking)
+      : "",
     hasThinking: hasOwn(model, "thinking"),
     input: Array.isArray(model.input) ? [...model.input] : ["text"],
     hasInput: hasOwn(model, "input"),
@@ -250,20 +256,20 @@ function modelDraft(
       ? formatOptionValue(model.imageInputDecoder)
       : "",
     hasImageInputDecoder: hasOwn(model, "imageInputDecoder"),
-    contextWindow: typeof model.contextWindow === "number" && Number.isFinite(model.contextWindow)
-      ? String(model.contextWindow)
-      : "",
+    contextWindow:
+      typeof model.contextWindow === "number" &&
+      Number.isFinite(model.contextWindow)
+        ? String(model.contextWindow)
+        : "",
     hasContextWindow: hasOwn(model, "contextWindow"),
-    maxTokens: typeof model.maxTokens === "number" && Number.isFinite(model.maxTokens)
-      ? String(model.maxTokens)
-      : "",
+    maxTokens:
+      typeof model.maxTokens === "number" && Number.isFinite(model.maxTokens)
+        ? String(model.maxTokens)
+        : "",
     hasMaxTokens: hasOwn(model, "maxTokens"),
     cost: hasOwn(model, "cost") ? formatOptionValue(model.cost) : "",
     hasCost: hasOwn(model, "cost"),
-    passthrough: objectWithout(
-      model,
-      MODEL_CONTROLLED_KEYS,
-    ),
+    passthrough: objectWithout(model, MODEL_CONTROLLED_KEYS),
   };
 }
 
@@ -391,17 +397,15 @@ export function OhMyPiProviderForm({
     () => optionalText(initialConfig.api) || "openai-completions",
   );
   const [apiKey, setApiKey] = useState(optionalText(initialConfig.apiKey));
-  const [providerHeaders, setProviderHeaders] = useState<Record<string, string>>(
-    () => {
-      const initialHeaders: Record<string, string> = {};
-      for (const [key, val] of Object.entries(
-        asObject(initialConfig.headers),
-      )) {
-        if (typeof val === "string") initialHeaders[key] = val;
-      }
-      return initialHeaders;
-    },
-  );
+  const [providerHeaders, setProviderHeaders] = useState<
+    Record<string, string>
+  >(() => {
+    const initialHeaders: Record<string, string> = {};
+    for (const [key, val] of Object.entries(asObject(initialConfig.headers))) {
+      if (typeof val === "string") initialHeaders[key] = val;
+    }
+    return initialHeaders;
+  });
   const [providerCompat, setProviderCompat] = useState<Record<string, unknown>>(
     () => asObject(initialConfig.compat),
   );
@@ -426,7 +430,9 @@ export function OhMyPiProviderForm({
   const [expandedModelKeys, setExpandedModelKeys] = useState<Set<string>>(
     () => new Set(),
   );
-  const [fetchedModels, setFetchedModels] = useState<FetchedModel[] | null>(null);
+  const [fetchedModels, setFetchedModels] = useState<FetchedModel[] | null>(
+    null,
+  );
   const [isFetchingModels, setIsFetchingModels] = useState(false);
   const modelFetchGenerationRef = useRef(0);
   const [showAdvanced, setShowAdvanced] = useState(false);
@@ -440,15 +446,14 @@ export function OhMyPiProviderForm({
       websiteUrl: initialData?.websiteUrl ?? "",
       notes: initialData?.notes ?? "",
       settingsConfig: JSON.stringify(initialConfig, null, 2),
-      icon: initialData?.icon === "pi" ? "omp" : initialData?.icon ?? "",
+      icon: initialData?.icon === "pi" ? "omp" : (initialData?.icon ?? ""),
       iconColor: initialData?.iconColor ?? "",
     },
   });
 
   const hasConfigurationSelection = isEdit || selectedPresetId !== null;
   const isSettingsConfigValid =
-    passthroughText.trim() === "" ||
-    parseYamlObject(passthroughText) !== null;
+    passthroughText.trim() === "" || parseYamlObject(passthroughText) !== null;
   const isSubmitReady =
     form.watch("name").trim().length > 0 && isSettingsConfigValid;
 
@@ -573,7 +578,7 @@ export function OhMyPiProviderForm({
         null,
         2,
       ),
-      icon: initialData?.icon === "pi" ? "omp" : initialData?.icon ?? "",
+      icon: initialData?.icon === "pi" ? "omp" : (initialData?.icon ?? ""),
       iconColor: initialData?.iconColor ?? "",
     });
     if (id === "custom") return;
@@ -610,10 +615,13 @@ export function OhMyPiProviderForm({
     });
   };
 
-  const handleApiChange = useCallback((value: string) => {
-    setApi(value);
-    invalidateFetchedModels();
-  }, [invalidateFetchedModels]);
+  const handleApiChange = useCallback(
+    (value: string) => {
+      setApi(value);
+      invalidateFetchedModels();
+    },
+    [invalidateFetchedModels],
+  );
 
   const handleApiKeyChange = useCallback(
     (value: string) => {
@@ -662,14 +670,14 @@ export function OhMyPiProviderForm({
       current.map((model) =>
         model.key === key
           ? {
-            ...model,
-            id,
-            name:
-              model.hasName &&
+              ...model,
+              id,
+              name:
+                model.hasName &&
                 (model.name.length === 0 || model.name === model.id)
-                ? id
-                : model.name,
-          }
+                  ? id
+                  : model.name,
+            }
           : model,
       ),
     );
@@ -680,7 +688,9 @@ export function OhMyPiProviderForm({
     update: Partial<Omit<OhMyPiModelDraft, "key">>,
   ) => {
     setModels((current) =>
-      current.map((model) => (model.key === key ? { ...model, ...update } : model)),
+      current.map((model) =>
+        model.key === key ? { ...model, ...update } : model,
+      ),
     );
   };
 
@@ -769,7 +779,7 @@ export function OhMyPiProviderForm({
     try {
       const trimmedName = identity.name.trim();
       const trimmedKey = normalizeProviderKey(
-        isEdit ? (providerId ?? "") : (providerKey || trimmedName),
+        isEdit ? (providerId ?? "") : providerKey || trimmedName,
       );
       if (!trimmedName) {
         throw new OhMyPiFormValidationError(
@@ -788,7 +798,9 @@ export function OhMyPiProviderForm({
         const id = model.id.trim();
         if (id.length === 0) {
           throw new OhMyPiFormValidationError(
-            t("ohmypi.form.modelIdRequired", { index: models.indexOf(model) + 1 }),
+            t("ohmypi.form.modelIdRequired", {
+              index: models.indexOf(model) + 1,
+            }),
             `#ohmypi-model-id-${model.key}`,
             model.key,
           );
@@ -857,8 +869,7 @@ export function OhMyPiProviderForm({
       };
       await onSubmit(values);
     } catch (error) {
-      const rawMessage =
-        error instanceof Error ? error.message : String(error);
+      const rawMessage = error instanceof Error ? error.message : String(error);
       setFormError(rawMessage);
       if (error instanceof OhMyPiFormValidationError) {
         const modelKey =
@@ -873,9 +884,7 @@ export function OhMyPiProviderForm({
         }
         if (error.fieldSelector) {
           requestAnimationFrame(() => {
-            document
-              .querySelector<HTMLElement>(error.fieldSelector!)
-              ?.focus();
+            document.querySelector<HTMLElement>(error.fieldSelector!)?.focus();
           });
         }
         toast.error(rawMessage);
@@ -895,9 +904,7 @@ export function OhMyPiProviderForm({
     }),
     [t],
   );
-  const isKnownApiFormat = API_FORMATS.some(
-    (format) => format.value === api,
-  );
+  const isKnownApiFormat = API_FORMATS.some((format) => format.value === api);
 
   return (
     <Form {...form}>
@@ -971,13 +978,13 @@ export function OhMyPiProviderForm({
                     <p className="text-xs text-muted-foreground">
                       {isEdit
                         ? t("opencode.providerKeyLockedHint", {
-                          defaultValue:
-                            "该供应商已添加到应用配置中，供应商标识不可修改",
-                        })
+                            defaultValue:
+                              "该供应商已添加到应用配置中，供应商标识不可修改",
+                          })
                         : t("opencode.providerKeyHint", {
-                          defaultValue:
-                            "配置文件中的唯一标识符，只能使用小写字母、数字和连字符",
-                        })}
+                            defaultValue:
+                              "配置文件中的唯一标识符，只能使用小写字母、数字和连字符",
+                          })}
                     </p>
                   </div>
                 ) : undefined
@@ -991,7 +998,10 @@ export function OhMyPiProviderForm({
               htmlFor="ohmypi-provider-api-select"
             >
               <Select value={api} onValueChange={handleApiChange}>
-                <SelectTrigger id="ohmypi-provider-api-select" className="w-full">
+                <SelectTrigger
+                  id="ohmypi-provider-api-select"
+                  className="w-full"
+                >
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -1135,9 +1145,7 @@ export function OhMyPiProviderForm({
                         *
                       </span>
                     </span>
-                    <span className="flex-1">
-                      {t("ohmypi.form.modelName")}
-                    </span>
+                    <span className="flex-1">{t("ohmypi.form.modelName")}</span>
                     <span className="w-9" />
                   </div>
                   {models.map((model) => {
@@ -1156,8 +1164,9 @@ export function OhMyPiProviderForm({
                             className="h-9 w-9 shrink-0"
                           >
                             <ChevronRight
-                              className={`h-4 w-4 transition-transform motion-reduce:transition-none ${isExpanded ? "rotate-90" : ""
-                                }`}
+                              className={`h-4 w-4 transition-transform motion-reduce:transition-none ${
+                                isExpanded ? "rotate-90" : ""
+                              }`}
                             />
                           </Button>
                           <div className="flex min-w-0 flex-1 gap-1">
@@ -1248,11 +1257,7 @@ export function OhMyPiProviderForm({
                               </div>
                             </div>
                             <Field
-                              label={
-                                <>
-                                  {t("ohmypi.form.thinking")}
-                                </>
-                              }
+                              label={<>{t("ohmypi.form.thinking")}</>}
                               htmlFor={`ohmypi-model-thinking-${model.key}`}
                             >
                               <Input
@@ -1407,9 +1412,9 @@ export function OhMyPiProviderForm({
                       onChange={(event) =>
                         handlePassthroughChange(event.target.value)
                       }
-                      placeholder='disableStrictTools: false
+                      placeholder="disableStrictTools: false
 discovery:
-  type: proxy'
+  type: proxy"
                       aria-label={t("ohmypi.form.passthroughLabel", {
                         defaultValue: "其他字段（YAML，原样保留）",
                       })}

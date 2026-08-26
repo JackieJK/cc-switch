@@ -231,9 +231,7 @@ export function ProviderCard({
   const isAnyOmo = isOmo || isOmoSlim;
   const handleDisableAnyOmo = isOmoSlim ? onDisableOmoSlim : onDisableOmo;
   const isAdditiveMode =
-    (appId === "opencode" && !isAnyOmo) ||
-    appId === "pi" ||
-    appId === "ohmypi";
+    (appId === "opencode" && !isAnyOmo) || appId === "pi" || appId === "ohmypi";
 
   const { data: health } = useProviderHealth(
     provider.id,

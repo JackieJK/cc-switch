@@ -61,10 +61,7 @@ export function OhMyPiAutoDiscoveryConfirmDialog({
             </div>
             <ul className="grid grid-cols-1 gap-x-4 gap-y-1 sm:grid-cols-2">
               {providers.map((p) => (
-                <li
-                  key={p.id}
-                  className="text-xs leading-snug text-foreground"
-                >
+                <li key={p.id} className="text-xs leading-snug text-foreground">
                   {p.displayName}
                 </li>
               ))}

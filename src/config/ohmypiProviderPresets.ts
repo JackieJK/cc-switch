@@ -64,7 +64,7 @@ export interface OhMyPiProviderPreset {
 }
 
 export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
-{
+  {
     name: "Kimi",
     providerKey: "cc-switch-kimi",
     websiteUrl: "https://platform.kimi.com?aff=cc-switch",
@@ -75,7 +75,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "kimi-k2.7-code",
           name: "Kimi K2.7 Code",
           reasoning: true,
@@ -83,7 +83,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 262144,
           maxTokens: 262144,
         },
-{
+        {
           id: "kimi-k3",
           name: "Kimi K3",
           reasoning: true,
@@ -107,7 +107,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "kimi",
     iconColor: "#6366F1",
   },
-{
+  {
     name: "Kimi For Coding",
     providerKey: "cc-switch-kimi-for-coding",
     websiteUrl: "https://www.kimi.com/code/?aff=cc-switch",
@@ -118,7 +118,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "kimi-for-coding",
           name: "Kimi For Coding",
           reasoning: true,
@@ -133,7 +133,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "kimi",
     iconColor: "#6366F1",
   },
-{
+  {
     name: "PackyCode",
     providerKey: "cc-switch-packy-code",
     websiteUrl: "https://www.packyapi.ai",
@@ -144,7 +144,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -152,7 +152,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -167,7 +167,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     partnerPromotionKey: "packycode",
     icon: "packycode",
   },
-{
+  {
     name: "ZetaAPI",
     providerKey: "cc-switch-zeta-api",
     websiteUrl: "https://zetaapi.ai",
@@ -178,7 +178,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "gpt-5.6-sol",
           name: "GPT-5.6 Sol",
           reasoning: true,
@@ -193,7 +193,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     partnerPromotionKey: "zetaapi",
     icon: "zetaapi",
   },
-{
+  {
     name: "APINebula",
     providerKey: "cc-switch-apinebula",
     websiteUrl: "https://apinebula.ai",
@@ -204,7 +204,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "gpt-5.6-sol",
           name: "GPT-5.6 Sol",
           reasoning: true,
@@ -219,7 +219,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     partnerPromotionKey: "apinebula",
     icon: "apinebula",
   },
-{
+  {
     name: "AICodeMirror",
     providerKey: "cc-switch-aicode-mirror",
     websiteUrl: "https://www.aicodemirror.ai",
@@ -230,7 +230,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -238,7 +238,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -254,18 +254,19 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "aicodemirror",
     iconColor: "#000000",
   },
-{
+  {
     name: "FennoAI",
     providerKey: "cc-switch-fenno-ai",
     websiteUrl: "https://api.fenno.ai",
-    apiKeyUrl: "https://api.fenno.ai/register?redirect=/purchase?tab=subscription%26group=16&aff=P9MR3D3PLCNL",
+    apiKeyUrl:
+      "https://api.fenno.ai/register?redirect=/purchase?tab=subscription%26group=16&aff=P9MR3D3PLCNL",
     settingsConfig: {
       name: "FennoAI",
       baseUrl: "https://api.fenno.ai/v1",
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "gpt-5.6-sol",
           name: "GPT-5.6 Sol",
           reasoning: true,
@@ -280,7 +281,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     partnerPromotionKey: "fenno",
     icon: "fenno",
   },
-{
+  {
     name: "RunAPI",
     providerKey: "cc-switch-run-api",
     websiteUrl: "https://runapi.co",
@@ -291,7 +292,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -299,7 +300,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -307,7 +308,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-haiku-4-5",
           name: "Claude Haiku 4.5 (latest)",
           reasoning: true,
@@ -322,7 +323,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     partnerPromotionKey: "runapi",
     icon: "runapi",
   },
-{
+  {
     name: "Shengsuanyun",
     nameKey: "providerForm.presets.shengsuanyun",
     providerKey: "cc-switch-shengsuanyun",
@@ -334,7 +335,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "anthropic/claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -342,7 +343,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "anthropic/claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -357,7 +358,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     partnerPromotionKey: "shengsuanyun",
     icon: "shengsuanyun",
   },
-{
+  {
     name: "AIGoCode",
     providerKey: "cc-switch-aigo-code",
     websiteUrl: "https://aigocode.app",
@@ -368,7 +369,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -376,7 +377,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -392,7 +393,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "aigocode",
     iconColor: "#5B7FFF",
   },
-{
+  {
     name: "Qiniu",
     nameKey: "providerForm.presets.qiniu",
     providerKey: "cc-switch-qiniu",
@@ -404,7 +405,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "gpt-5.6-sol",
           name: "GPT-5.6 Sol",
           reasoning: true,
@@ -419,7 +420,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     partnerPromotionKey: "qiniu",
     icon: "qiniu",
   },
-{
+  {
     name: "AICoding",
     providerKey: "cc-switch-aicoding",
     websiteUrl: "https://aicoding.inc",
@@ -430,7 +431,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -438,7 +439,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -454,7 +455,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "aicoding",
     iconColor: "#000000",
   },
-{
+  {
     name: "SubRouter",
     providerKey: "cc-switch-sub-router",
     websiteUrl: "https://subrouter.ai",
@@ -465,7 +466,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "gpt-5.6-sol",
           name: "GPT-5.6 Sol",
           reasoning: true,
@@ -480,7 +481,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     partnerPromotionKey: "subrouter",
     icon: "subrouter",
   },
-{
+  {
     name: "APIKEY.FUN",
     providerKey: "cc-switch-apikey-fun",
     websiteUrl: "https://apikey.fun",
@@ -491,7 +492,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -499,7 +500,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -507,7 +508,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-haiku-4-5",
           name: "Claude Haiku 4.5 (latest)",
           reasoning: true,
@@ -522,7 +523,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     partnerPromotionKey: "apikeyfun",
     icon: "apikeyfun",
   },
-{
+  {
     name: "Code0",
     providerKey: "cc-switch-code0",
     websiteUrl: "https://code0.ai",
@@ -533,7 +534,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "gpt-5.6-sol",
           name: "GPT-5.6 Sol",
           reasoning: true,
@@ -548,18 +549,19 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     partnerPromotionKey: "code0",
     icon: "code0",
   },
-{
+  {
     name: "TeamoRouter",
     providerKey: "cc-switch-teamo-router",
     websiteUrl: "https://teamorouter.com",
-    apiKeyUrl: "https://teamorouter.com/?utm_source=cc_switch&utm_medium=referral&utm_campaign=ai_directory",
+    apiKeyUrl:
+      "https://teamorouter.com/?utm_source=cc_switch&utm_medium=referral&utm_campaign=ai_directory",
     settingsConfig: {
       name: "TeamoRouter",
       baseUrl: "https://api.teamorouter.com/v1",
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "gpt-5.6-sol",
           name: "GPT-5.6 Sol",
           reasoning: true,
@@ -574,7 +576,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     partnerPromotionKey: "teamorouter",
     icon: "teamorouter",
   },
-{
+  {
     name: "ClaudeCN",
     providerKey: "cc-switch-claude-cn",
     websiteUrl: "https://claudecn.top",
@@ -585,7 +587,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -593,7 +595,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -601,7 +603,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-haiku-4-5",
           name: "Claude Haiku 4.5 (latest)",
           reasoning: true,
@@ -616,18 +618,20 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     partnerPromotionKey: "claudecn",
     icon: "claudecn",
   },
-{
+  {
     name: "火山Agentplan",
     providerKey: "cc-switch-agentplan",
-    websiteUrl: "https://www.volcengine.com/activity/codingplan?ac=MMAP8JTTCAQ2&rc=6J6FV5N2&utm_campaign=hw&utm_content=ccswitch&utm_medium=devrel_tool_web&utm_source=OWO&utm_term=ccswitch",
-    apiKeyUrl: "https://www.volcengine.com/activity/codingplan?ac=MMAP8JTTCAQ2&rc=6J6FV5N2&utm_campaign=hw&utm_content=ccswitch&utm_medium=devrel_tool_web&utm_source=OWO&utm_term=ccswitch",
+    websiteUrl:
+      "https://www.volcengine.com/activity/codingplan?ac=MMAP8JTTCAQ2&rc=6J6FV5N2&utm_campaign=hw&utm_content=ccswitch&utm_medium=devrel_tool_web&utm_source=OWO&utm_term=ccswitch",
+    apiKeyUrl:
+      "https://www.volcengine.com/activity/codingplan?ac=MMAP8JTTCAQ2&rc=6J6FV5N2&utm_campaign=hw&utm_content=ccswitch&utm_medium=devrel_tool_web&utm_source=OWO&utm_term=ccswitch",
     settingsConfig: {
       name: "火山Agentplan",
       baseUrl: "https://ark.cn-beijing.volces.com/api/coding/v3",
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "ark-code-latest",
           name: "Ark Code Latest",
           reasoning: false,
@@ -643,18 +647,20 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "huoshan",
     iconColor: "#3370FF",
   },
-{
+  {
     name: "BytePlus",
     providerKey: "cc-switch-byte-plus",
-    websiteUrl: "https://www.byteplus.com/en/product/modelark?utm_campaign=hw&utm_content=ccswitch&utm_medium=devrel_tool_web&utm_source=OWO&utm_term=ccswitch",
-    apiKeyUrl: "https://www.byteplus.com/en/product/modelark?utm_campaign=hw&utm_content=ccswitch&utm_medium=devrel_tool_web&utm_source=OWO&utm_term=ccswitch",
+    websiteUrl:
+      "https://www.byteplus.com/en/product/modelark?utm_campaign=hw&utm_content=ccswitch&utm_medium=devrel_tool_web&utm_source=OWO&utm_term=ccswitch",
+    apiKeyUrl:
+      "https://www.byteplus.com/en/product/modelark?utm_campaign=hw&utm_content=ccswitch&utm_medium=devrel_tool_web&utm_source=OWO&utm_term=ccswitch",
     settingsConfig: {
       name: "BytePlus",
       baseUrl: "https://ark.ap-southeast.bytepluses.com/api/coding/v3",
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "ark-code-latest",
           name: "Ark Code Latest",
           reasoning: false,
@@ -670,18 +676,20 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "byteplus",
     iconColor: "#3370FF",
   },
-{
+  {
     name: "DouBaoSeed",
     providerKey: "cc-switch-dou-bao-seed",
-    websiteUrl: "https://console.volcengine.com/ark/region:ark+cn-beijing/apiKey?apikey=%7B%7D&utm_campaign=hw&utm_content=ccswitch&utm_medium=devrel_tool_web&utm_source=OWO&utm_term=ccswitch",
-    apiKeyUrl: "https://console.volcengine.com/ark/region:ark+cn-beijing/apiKey?apikey=%7B%7D&utm_campaign=hw&utm_content=ccswitch&utm_medium=devrel_tool_web&utm_source=OWO&utm_term=ccswitch",
+    websiteUrl:
+      "https://console.volcengine.com/ark/region:ark+cn-beijing/apiKey?apikey=%7B%7D&utm_campaign=hw&utm_content=ccswitch&utm_medium=devrel_tool_web&utm_source=OWO&utm_term=ccswitch",
+    apiKeyUrl:
+      "https://console.volcengine.com/ark/region:ark+cn-beijing/apiKey?apikey=%7B%7D&utm_campaign=hw&utm_content=ccswitch&utm_medium=devrel_tool_web&utm_source=OWO&utm_term=ccswitch",
     settingsConfig: {
       name: "DouBaoSeed",
       baseUrl: "https://ark.cn-beijing.volces.com/api/v3",
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "doubao-seed-2-1-pro-260628",
           name: "Doubao Seed 2.1 Pro",
           reasoning: true,
@@ -697,7 +705,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "doubao",
     iconColor: "#3370FF",
   },
-{
+  {
     name: "A6API",
     providerKey: "cc-switch-a6-api",
     websiteUrl: "https://www.a6api.com",
@@ -708,7 +716,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "gpt-5.6-sol",
           name: "GPT-5.6 Sol",
           reasoning: true,
@@ -723,7 +731,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     partnerPromotionKey: "a6api",
     icon: "a6api",
   },
-{
+  {
     name: "AtlasCloud",
     providerKey: "cc-switch-atlas-cloud",
     websiteUrl: "https://www.atlascloud.ai/console/coding-plan",
@@ -734,7 +742,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "zai-org/glm-5.1",
           name: "GLM 5.1",
           reasoning: true,
@@ -749,7 +757,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     partnerPromotionKey: "atlascloud",
     icon: "atlascloud",
   },
-{
+  {
     name: "CCSub",
     providerKey: "cc-switch-ccsub",
     websiteUrl: "https://www.ccsub.net",
@@ -760,7 +768,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "gpt-5.6-sol",
           name: "GPT-5.6 Sol",
           reasoning: true,
@@ -775,7 +783,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     partnerPromotionKey: "ccsub",
     icon: "ccsub",
   },
-{
+  {
     name: "SSSAiCode",
     providerKey: "cc-switch-sssai-code",
     websiteUrl: "https://sssaicodeapi.com",
@@ -786,7 +794,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -794,7 +802,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -810,7 +818,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "sssaicode",
     iconColor: "#000000",
   },
-{
+  {
     name: "Micu",
     providerKey: "cc-switch-micu",
     websiteUrl: "https://www.micuapi.ai",
@@ -821,7 +829,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -829,7 +837,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -845,7 +853,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "micu",
     iconColor: "#000000",
   },
-{
+  {
     name: "RightCode",
     providerKey: "cc-switch-right-code",
     websiteUrl: "https://www.rightapi.ai",
@@ -856,7 +864,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-responses",
       apiKey: "",
       models: [
-{
+        {
           id: "gpt-5.6-sol",
           name: "GPT-5.6 Sol",
           reasoning: true,
@@ -872,7 +880,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "rc",
     iconColor: "#E96B2C",
   },
-{
+  {
     name: "ETok.ai",
     providerKey: "cc-switch-etok-ai",
     websiteUrl: "https://etok.ai",
@@ -883,7 +891,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -891,7 +899,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -907,7 +915,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "etok",
     iconColor: "#000000",
   },
-{
+  {
     name: "Cubence",
     providerKey: "cc-switch-cubence",
     websiteUrl: "https://cubence.com",
@@ -918,7 +926,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -926,7 +934,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -942,7 +950,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "cubence",
     iconColor: "#000000",
   },
-{
+  {
     name: "CrazyRouter",
     providerKey: "cc-switch-crazy-router",
     websiteUrl: "https://www.crazyrouter.com",
@@ -953,7 +961,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -961,7 +969,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -977,7 +985,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "crazyrouter",
     iconColor: "#000000",
   },
-{
+  {
     name: "DMXAPI",
     providerKey: "cc-switch-dmxapi",
     websiteUrl: "https://www.dmxapi.cn",
@@ -988,7 +996,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -996,7 +1004,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -1010,18 +1018,19 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     isPartner: true,
     partnerPromotionKey: "dmxapi",
   },
-{
+  {
     name: "SudoCode.chat",
     providerKey: "cc-switch-sudo-code-chat",
     websiteUrl: "https://sudocode.chat",
-    apiKeyUrl: "https://sudocode.chat/sign-up?aff=CC-SWITCH&utm_source=cc-switch&utm_medium=sponsor&utm_campaign=ccswitch",
+    apiKeyUrl:
+      "https://sudocode.chat/sign-up?aff=CC-SWITCH&utm_source=cc-switch&utm_medium=sponsor&utm_campaign=ccswitch",
     settingsConfig: {
       name: "SudoCode.chat",
       baseUrl: "https://api.sudocode.chat/v1",
       api: "openai-responses",
       apiKey: "",
       models: [
-{
+        {
           id: "gpt-5.6-sol",
           name: "GPT-5.6 Sol",
           reasoning: true,
@@ -1036,7 +1045,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     partnerPromotionKey: "sudocode",
     icon: "sudocode",
   },
-{
+  {
     name: "SudoCode.us",
     providerKey: "cc-switch-sudo-code-us",
     websiteUrl: "https://sudocode.us",
@@ -1047,7 +1056,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-responses",
       apiKey: "",
       models: [
-{
+        {
           id: "gpt-5.6-sol",
           name: "GPT-5.6 Sol",
           reasoning: true,
@@ -1061,7 +1070,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     isPartner: true,
     icon: "sudocode-us",
   },
-{
+  {
     name: "Amux",
     providerKey: "cc-switch-amux",
     websiteUrl: "https://amux.ai",
@@ -1072,7 +1081,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "gpt-5.6-sol",
           name: "GPT-5.6 Sol",
           reasoning: true,
@@ -1085,7 +1094,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     category: "aggregator",
     icon: "amux",
   },
-{
+  {
     name: "DeepSeek",
     providerKey: "cc-switch-deep-seek",
     websiteUrl: "https://platform.deepseek.com",
@@ -1096,7 +1105,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "deepseek-v4-pro",
           name: "DeepSeek V4 Pro",
           reasoning: true,
@@ -1104,7 +1113,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 384000,
         },
-{
+        {
           id: "deepseek-v4-flash",
           name: "DeepSeek V4 Flash",
           reasoning: true,
@@ -1118,7 +1127,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "deepseek",
     iconColor: "#1E88E5",
   },
-{
+  {
     name: "Zhipu GLM",
     providerKey: "cc-switch-zhipu-glm",
     websiteUrl: "https://open.bigmodel.cn",
@@ -1129,7 +1138,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "glm-5.1",
           name: "GLM-5.1",
           reasoning: true,
@@ -1143,7 +1152,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "zhipu",
     iconColor: "#0F62FE",
   },
-{
+  {
     name: "Zhipu GLM en",
     providerKey: "cc-switch-zhipu-glm-en",
     websiteUrl: "https://z.ai",
@@ -1154,7 +1163,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "glm-5.1",
           name: "GLM-5.1",
           reasoning: true,
@@ -1168,7 +1177,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "zhipu",
     iconColor: "#0F62FE",
   },
-{
+  {
     name: "Bailian",
     providerKey: "cc-switch-bailian",
     websiteUrl: "https://bailian.console.aliyun.com",
@@ -1179,7 +1188,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "qwen3-coder-plus",
           name: "Qwen3 Coder Plus",
           reasoning: false,
@@ -1193,7 +1202,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "bailian",
     iconColor: "#624AFF",
   },
-{
+  {
     name: "StepFun",
     providerKey: "cc-switch-step-fun",
     websiteUrl: "https://platform.stepfun.com/step-plan",
@@ -1204,7 +1213,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "step-3.5-flash-2603",
           name: "Step 3.5 Flash 2603",
           reasoning: true,
@@ -1212,7 +1221,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 256000,
           maxTokens: 256000,
         },
-{
+        {
           id: "step-3.5-flash",
           name: "Step 3.5 Flash",
           reasoning: true,
@@ -1226,7 +1235,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "stepfun",
     iconColor: "#16D6D2",
   },
-{
+  {
     name: "StepFun en",
     providerKey: "cc-switch-step-fun-en",
     websiteUrl: "https://platform.stepfun.ai/step-plan",
@@ -1237,7 +1246,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "step-3.5-flash-2603",
           name: "Step 3.5 Flash 2603",
           reasoning: true,
@@ -1245,7 +1254,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 256000,
           maxTokens: 256000,
         },
-{
+        {
           id: "step-3.5-flash",
           name: "Step 3.5 Flash",
           reasoning: true,
@@ -1259,7 +1268,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "stepfun",
     iconColor: "#16D6D2",
   },
-{
+  {
     name: "StepFun Step Plan",
     providerKey: "cc-switch-step-fun-step-plan",
     websiteUrl: "https://platform.stepfun.com/docs/zh/step-plan/overview",
@@ -1270,7 +1279,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "step-3.5-flash",
           name: "Step 3.5 Flash",
           reasoning: true,
@@ -1284,7 +1293,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "stepfun",
     iconColor: "#005AFF",
   },
-{
+  {
     name: "ModelScope",
     providerKey: "cc-switch-model-scope",
     websiteUrl: "https://modelscope.cn",
@@ -1295,7 +1304,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "ZhipuAI/GLM-5.2",
           name: "GLM-5.2",
           reasoning: true,
@@ -1309,18 +1318,19 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "modelscope",
     iconColor: "#624AFF",
   },
-{
+  {
     name: "KAT-Coder",
     providerKey: "cc-switch-kat-coder",
     websiteUrl: "https://console.streamlake.ai",
     apiKeyUrl: "https://console.streamlake.ai/console/api-key",
     settingsConfig: {
       name: "KAT-Coder",
-      baseUrl: "https://vanchin.streamlake.ai/api/gateway/v1/endpoints/${ENDPOINT_ID}/openai",
+      baseUrl:
+        "https://vanchin.streamlake.ai/api/gateway/v1/endpoints/${ENDPOINT_ID}/openai",
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "KAT-Coder-Pro",
           name: "KAT-Coder Pro",
           reasoning: true,
@@ -1333,7 +1343,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     category: "cn_official",
     icon: "catcoder",
   },
-{
+  {
     name: "Longcat",
     providerKey: "cc-switch-longcat",
     websiteUrl: "https://longcat.chat/platform",
@@ -1344,7 +1354,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "LongCat-2.0",
           name: "LongCat 2.0",
           reasoning: true,
@@ -1358,7 +1368,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "longcat",
     iconColor: "#29E154",
   },
-{
+  {
     name: "MiniMax",
     providerKey: "cc-switch-mini-max",
     websiteUrl: "https://platform.minimaxi.com",
@@ -1369,7 +1379,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "MiniMax-M2.7",
           name: "MiniMax-M2.7",
           reasoning: true,
@@ -1388,7 +1398,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "minimax",
     iconColor: "#FF6B6B",
   },
-{
+  {
     name: "MiniMax en",
     providerKey: "cc-switch-mini-max-en",
     websiteUrl: "https://platform.minimax.io",
@@ -1399,7 +1409,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "MiniMax-M2.7",
           name: "MiniMax-M2.7",
           reasoning: true,
@@ -1418,7 +1428,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "minimax",
     iconColor: "#FF6B6B",
   },
-{
+  {
     name: "BaiLing",
     providerKey: "cc-switch-bai-ling",
     websiteUrl: "https://alipaytbox.yuque.com/sxs0ba/ling/get_started",
@@ -1428,7 +1438,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "Ling-2.5-1T",
           name: "Ling 2.5-1T",
           reasoning: false,
@@ -1440,7 +1450,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     },
     category: "cn_official",
   },
-{
+  {
     name: "Xiaomi MiMo",
     providerKey: "cc-switch-xiaomi-mi-mo",
     websiteUrl: "https://platform.xiaomimimo.com",
@@ -1451,7 +1461,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "mimo-v2.5-pro",
           name: "MiMo-V2.5-Pro",
           reasoning: true,
@@ -1462,7 +1472,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
             thinkingFormat: "deepseek",
           },
         },
-{
+        {
           id: "mimo-v2.5",
           name: "MiMo-V2.5",
           reasoning: true,
@@ -1479,7 +1489,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "xiaomimimo",
     iconColor: "#000000",
   },
-{
+  {
     name: "Xiaomi MiMo Token Plan (China)",
     providerKey: "cc-switch-xiaomi-mi-mo-token-plan-china",
     websiteUrl: "https://platform.xiaomimimo.com/#/token-plan",
@@ -1490,7 +1500,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "mimo-v2.5-pro",
           name: "MiMo-V2.5-Pro",
           reasoning: true,
@@ -1498,7 +1508,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1048576,
           maxTokens: 131072,
         },
-{
+        {
           id: "mimo-v2.5",
           name: "MiMo-V2.5",
           reasoning: true,
@@ -1512,7 +1522,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "xiaomimimo",
     iconColor: "#000000",
   },
-{
+  {
     name: "OpenCode Go",
     providerKey: "cc-switch-open-code-go",
     websiteUrl: "https://opencode.ai/go",
@@ -1523,7 +1533,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "glm-5.2",
           name: "GLM 5.2",
           reasoning: true,
@@ -1536,7 +1546,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
             maxTokensField: "max_tokens",
           },
         },
-{
+        {
           id: "kimi-k2.7-code",
           name: "Kimi K2.7 Code",
           reasoning: true,
@@ -1549,7 +1559,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
             maxTokensField: "max_tokens",
           },
         },
-{
+        {
           id: "deepseek-v4-pro",
           name: "DeepSeek V4 Pro",
           reasoning: true,
@@ -1563,7 +1573,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
             thinkingFormat: "deepseek",
           },
         },
-{
+        {
           id: "deepseek-v4-flash",
           name: "DeepSeek V4 Flash",
           reasoning: true,
@@ -1577,7 +1587,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
             thinkingFormat: "deepseek",
           },
         },
-{
+        {
           id: "mimo-v2.5-pro",
           name: "MiMo-V2.5-Pro",
           reasoning: true,
@@ -1597,7 +1607,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "opencode",
     iconColor: "#211E1E",
   },
-{
+  {
     name: "AiHubMix",
     providerKey: "cc-switch-ai-hub-mix",
     websiteUrl: "https://aihubmix.com",
@@ -1608,7 +1618,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -1616,7 +1626,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -1630,7 +1640,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "aihubmix",
     iconColor: "#006FFB",
   },
-{
+  {
     name: "CherryIN",
     providerKey: "cc-switch-cherry-in",
     websiteUrl: "https://open.cherryin.ai",
@@ -1641,7 +1651,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "anthropic/claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -1649,7 +1659,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "anthropic/claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -1662,7 +1672,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     category: "aggregator",
     icon: "cherryin",
   },
-{
+  {
     name: "OpenRouter",
     providerKey: "cc-switch-open-router",
     websiteUrl: "https://openrouter.ai",
@@ -1673,7 +1683,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "anthropic/claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -1681,7 +1691,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "anthropic/claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -1695,7 +1705,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "openrouter",
     iconColor: "#6566F1",
   },
-{
+  {
     name: "TheRouter",
     providerKey: "cc-switch-the-router",
     websiteUrl: "https://therouter.ai",
@@ -1706,7 +1716,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "anthropic/claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -1714,7 +1724,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "openai/gpt-5.3-codex",
           name: "GPT-5.3 Codex",
           reasoning: true,
@@ -1722,7 +1732,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 400000,
           maxTokens: 128000,
         },
-{
+        {
           id: "openai/gpt-5.2",
           name: "GPT-5.2",
           reasoning: true,
@@ -1730,7 +1740,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 400000,
           maxTokens: 128000,
         },
-{
+        {
           id: "google/gemini-3.6-flash",
           name: "Gemini 3.6 Flash",
           reasoning: true,
@@ -1738,7 +1748,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1048576,
           maxTokens: 65536,
         },
-{
+        {
           id: "qwen/qwen3-coder-480b",
           name: "Qwen3 Coder 480B",
           reasoning: false,
@@ -1750,7 +1760,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     },
     category: "aggregator",
   },
-{
+  {
     name: "Novita AI",
     providerKey: "cc-switch-novita-ai",
     websiteUrl: "https://novita.ai",
@@ -1761,7 +1771,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "zai-org/glm-5.1",
           name: "GLM-5.1",
           reasoning: true,
@@ -1775,7 +1785,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "novita",
     iconColor: "#000000",
   },
-{
+  {
     name: "Nvidia",
     providerKey: "cc-switch-nvidia",
     websiteUrl: "https://build.nvidia.com",
@@ -1786,7 +1796,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-completions",
       apiKey: "",
       models: [
-{
+        {
           id: "moonshotai/kimi-k2.5",
           name: "Kimi K2.5",
           reasoning: true,
@@ -1800,7 +1810,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "nvidia",
     iconColor: "#000000",
   },
-{
+  {
     name: "PIPELLM",
     providerKey: "cc-switch-pipellm",
     websiteUrl: "https://code.pipellm.ai",
@@ -1811,7 +1821,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "anthropic-messages",
       apiKey: "",
       models: [
-{
+        {
           id: "claude-opus-5",
           name: "claude-opus-5",
           reasoning: true,
@@ -1819,7 +1829,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-sonnet-5",
           name: "claude-sonnet-5",
           reasoning: true,
@@ -1827,7 +1837,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "claude-haiku-4-5-20251001",
           name: "claude-haiku-4-5-20251001",
           reasoning: true,
@@ -1840,7 +1850,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     category: "aggregator",
     icon: "pipellm",
   },
-{
+  {
     name: "E-FlowCode",
     providerKey: "cc-switch-e-flow-code",
     websiteUrl: "https://e-flowcode.cc",
@@ -1851,7 +1861,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "openai-responses",
       apiKey: "",
       models: [
-{
+        {
           id: "gpt-5.2-codex",
           name: "gpt-5.2-codex",
           reasoning: true,
@@ -1859,7 +1869,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 400000,
           maxTokens: 128000,
         },
-{
+        {
           id: "gpt-5.3-codex",
           name: "gpt-5.3-codex",
           reasoning: true,
@@ -1873,7 +1883,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     icon: "eflowcode",
     iconColor: "#000000",
   },
-{
+  {
     name: "AWS Bedrock",
     providerKey: "cc-switch-aws-bedrock",
     websiteUrl: "https://aws.amazon.com/bedrock/",
@@ -1883,7 +1893,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
       api: "bedrock-converse-stream",
       apiKey: "",
       models: [
-{
+        {
           id: "global.anthropic.claude-opus-5",
           name: "Claude Opus 5",
           reasoning: true,
@@ -1891,7 +1901,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "global.anthropic.claude-sonnet-5",
           name: "Claude Sonnet 5",
           reasoning: true,
@@ -1899,7 +1909,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 128000,
         },
-{
+        {
           id: "global.anthropic.claude-haiku-4-5-20251001-v1:0",
           name: "Claude Haiku 4.5",
           reasoning: true,
@@ -1907,7 +1917,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 200000,
           maxTokens: 64000,
         },
-{
+        {
           id: "us.amazon.nova-pro-v1:0",
           name: "Amazon Nova Pro",
           reasoning: false,
@@ -1915,7 +1925,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 300000,
           maxTokens: 8192,
         },
-{
+        {
           id: "us.meta.llama4-maverick-17b-instruct-v1:0",
           name: "Meta Llama 4 Maverick",
           reasoning: false,
@@ -1923,7 +1933,7 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 16384,
         },
-{
+        {
           id: "us.deepseek.r1-v1:0",
           name: "DeepSeek R1",
           reasoning: true,
@@ -1936,5 +1946,5 @@ export const ohmypiProviderPresets: OhMyPiProviderPreset[] = [
     category: "cloud_provider",
     icon: "aws",
     iconColor: "#FF9900",
-  }
+  },
 ];

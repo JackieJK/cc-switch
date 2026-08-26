@@ -1,4 +1,9 @@
-import { type QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  type QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { ohmypiApi } from "@/lib/api/ohmypi";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";

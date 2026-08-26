@@ -1,5 +1,5 @@
-import {invoke} from "@tauri-apps/api/core";
-import type {UsageScript} from "@/types";
+import { invoke } from "@tauri-apps/api/core";
+import type { UsageScript } from "@/types";
 
 export interface OhMyPiCurrentState {
   enabledProviderIds: string[];

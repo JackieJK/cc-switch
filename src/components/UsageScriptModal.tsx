@@ -299,8 +299,8 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
           // Oh My Pi: same camelCase layout as Pi; a model may override baseUrl.
           const root = config as any;
           const firstModel = Array.isArray(root.models)
-              ? root.models[0]
-              : undefined;
+            ? root.models[0]
+            : undefined;
           return {
             apiKey: root.apiKey,
             baseUrl: firstModel?.baseUrl || root.baseUrl,

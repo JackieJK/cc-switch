@@ -56,7 +56,7 @@ import {
   type HermesProviderPreset,
 } from "@/config/hermesProviderPresets";
 
-import {OhMyPiProviderPreset} from "@/config/ohmypiProviderPresets.ts";
+import { OhMyPiProviderPreset } from "@/config/ohmypiProviderPresets.ts";
 import { OpenCodeFormFields } from "./OpenCodeFormFields";
 import { OpenClawFormFields } from "./OpenClawFormFields";
 import { HermesFormFields } from "./HermesFormFields";

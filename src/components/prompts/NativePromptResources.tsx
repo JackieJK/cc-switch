@@ -48,9 +48,7 @@ import { cn } from "@/lib/utils";
 import { extractErrorMessage } from "@/utils/errorUtils";
 
 /** Union of every native prompt file kind across pi and ohmypi. */
-export type NativePromptFileKind =
-  | PiPromptFileKind
-  | OhMyPiPromptFileKind;
+export type NativePromptFileKind = PiPromptFileKind | OhMyPiPromptFileKind;
 
 export interface NativePromptFileSnapshot {
   exists: boolean;
@@ -93,10 +91,7 @@ export interface NativePromptResourcesApi {
     content: string,
     originalSlug?: string,
   ) => Promise<NativePromptTemplate>;
-  deleteTemplate: (
-    slug: string,
-    expectedRevision: string,
-  ) => Promise<boolean>;
+  deleteTemplate: (slug: string, expectedRevision: string) => Promise<boolean>;
 }
 
 export interface NativePromptResourcesConfig {
@@ -167,8 +162,7 @@ function NativeInstructionFileEditor({
   });
 
   const remove = useMutation({
-    mutationFn: () =>
-      config.api.deleteFile(file.kind, baseSnapshot.revision),
+    mutationFn: () => config.api.deleteFile(file.kind, baseSnapshot.revision),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey });
       toast.success(
@@ -434,7 +428,11 @@ export function NativeSystemPromptFiles({
 
       <div className="grid grid-cols-1 gap-3">
         {config.files.map((file) => (
-          <NativeInstructionFileCard key={file.kind} config={config} file={file} />
+          <NativeInstructionFileCard
+            key={file.kind}
+            config={config}
+            file={file}
+          />
         ))}
       </div>
     </section>
@@ -663,7 +661,9 @@ export const NativePromptTemplates = forwardRef<
   }));
 
   const refresh = async () => {
-    await queryClient.invalidateQueries({ queryKey: promptTemplatesKey(config) });
+    await queryClient.invalidateQueries({
+      queryKey: promptTemplatesKey(config),
+    });
   };
 
   const remove = useMutation({
@@ -926,7 +926,8 @@ export const OHMYPI_PROMPT_RESOURCES_CONFIG: NativePromptResourcesConfig = {
     },
   ],
   api: {
-    getFile: (kind) => promptsApi.getOhMyPiPromptFile(kind as OhMyPiPromptFileKind),
+    getFile: (kind) =>
+      promptsApi.getOhMyPiPromptFile(kind as OhMyPiPromptFileKind),
     replaceFile: (kind, expectedRevision, content) =>
       promptsApi.replaceOhMyPiPromptFile(
         kind as OhMyPiPromptFileKind,

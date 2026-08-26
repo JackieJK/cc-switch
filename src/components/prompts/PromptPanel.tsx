@@ -326,13 +326,13 @@ const PromptPanel = React.forwardRef<PromptPanelHandle, PromptPanelProps>(
 
     if (props.appId === "ohmypi") {
       return (
-          <OhMyPiPromptPanel
-              ref={ref}
-              open={props.open}
-              onInteractionBlockedChange={props.onInteractionBlockedChange}
-              onNavigationBlockedChange={props.onNavigationBlockedChange}
-              onPrimaryActionChange={props.onPrimaryActionChange}
-          />
+        <OhMyPiPromptPanel
+          ref={ref}
+          open={props.open}
+          onInteractionBlockedChange={props.onInteractionBlockedChange}
+          onNavigationBlockedChange={props.onNavigationBlockedChange}
+          onPrimaryActionChange={props.onPrimaryActionChange}
+        />
       );
     }
 

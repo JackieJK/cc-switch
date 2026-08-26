@@ -9,11 +9,7 @@ const EMPTY_PROMPTS: Record<string, Prompt> = {};
 const nativePromptsI18nKey = (
   appId: AppId,
 ): "pi.prompts" | "ohmypi.prompts" | null =>
-  appId === "pi"
-    ? "pi.prompts"
-    : appId === "ohmypi"
-      ? "ohmypi.prompts"
-      : null;
+  appId === "pi" ? "pi.prompts" : appId === "ohmypi" ? "ohmypi.prompts" : null;
 
 export function usePromptActions(appId: AppId) {
   const { t } = useTranslation();

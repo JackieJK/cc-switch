@@ -27,17 +27,17 @@ const APP_CONFIG: Array<{
   icon: string;
   nameKey: string;
 }> = [
-    { id: "claude", icon: "claude", nameKey: "apps.claudeCode" },
-    { id: "claude-desktop", icon: "claude", nameKey: "apps.claudeDesktop" },
-    { id: "codex", icon: "openai", nameKey: "apps.codex" },
-    { id: "gemini", icon: "gemini", nameKey: "apps.gemini" },
-    { id: "grokbuild", icon: "grok", nameKey: "apps.grokbuild" },
-    { id: "opencode", icon: "opencode", nameKey: "apps.opencode" },
-    { id: "openclaw", icon: "openclaw", nameKey: "apps.openclaw" },
-    { id: "hermes", icon: "hermes", nameKey: "apps.hermes" },
-    { id: "pi", icon: "pi", nameKey: "apps.pi" },
-    { id: "ohmypi", icon: "ohmypi", nameKey: "apps.ohmypi" },
-  ];
+  { id: "claude", icon: "claude", nameKey: "apps.claudeCode" },
+  { id: "claude-desktop", icon: "claude", nameKey: "apps.claudeDesktop" },
+  { id: "codex", icon: "openai", nameKey: "apps.codex" },
+  { id: "gemini", icon: "gemini", nameKey: "apps.gemini" },
+  { id: "grokbuild", icon: "grok", nameKey: "apps.grokbuild" },
+  { id: "opencode", icon: "opencode", nameKey: "apps.opencode" },
+  { id: "openclaw", icon: "openclaw", nameKey: "apps.openclaw" },
+  { id: "hermes", icon: "hermes", nameKey: "apps.hermes" },
+  { id: "pi", icon: "pi", nameKey: "apps.pi" },
+  { id: "ohmypi", icon: "ohmypi", nameKey: "apps.ohmypi" },
+];
 
 export function AppVisibilitySettings({
   settings,
@@ -51,7 +51,9 @@ export function AppVisibilitySettings({
   const disableDiscovery = useDisableOhMyPiAgentAutoDiscovery();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogPending, setDialogPending] = useState(false);
-  const [providers, setProviders] = useState<OhMyPiAgentDiscoveryProvider[]>([]);
+  const [providers, setProviders] = useState<OhMyPiAgentDiscoveryProvider[]>(
+    [],
+  );
   const mountedRef = useRef(true);
 
   useEffect(() => {

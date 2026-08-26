@@ -53,7 +53,7 @@ import { useScanUnmanagedSkills } from "@/hooks/useSkills";
 import {
   extractErrorMessage,
   translatePiProviderMutationError,
-  translateOhMyPiProviderMutationError
+  translateOhMyPiProviderMutationError,
 } from "@/utils/errorUtils";
 import { isTextEditableTarget } from "@/utils/domUtils";
 import { deepClone } from "@/utils/deepClone";
@@ -114,7 +114,7 @@ import {
   DEFAULT_VISIBLE_APPS,
   isProxyAppId,
 } from "@/config/appConfig";
-import {invalidateOhMyPiProviderCaches} from "@/lib/query/ohmypi";
+import { invalidateOhMyPiProviderCaches } from "@/lib/query/ohmypi";
 
 type View =
   | "providers"
@@ -373,27 +373,29 @@ function App() {
       await invalidateOhMyPiProviderCaches(queryClient);
       await providersApi.updateTrayMenu().catch((error) => {
         console.error(
-            "Failed to update tray menu after enabling Oh My Pi provider",
-            error,
+          "Failed to update tray menu after enabling Oh My Pi provider",
+          error,
         );
       });
       toast.success(
-          t("ohmypi.provider.enabled", {
-            defaultValue: "已在 Oh My Pi 中启用",
-          }),
-          { closeButton: true },
+        t("ohmypi.provider.enabled", {
+          defaultValue: "已在 Oh My Pi 中启用",
+        }),
+        { closeButton: true },
       );
     } catch (error) {
       const detail = extractErrorMessage(error);
       toast.error(
-          t("ohmypi.provider.enableFailed", {
-            defaultValue: "无法在 Oh My Pi 中启用此供应商",
-          }),
-          {
-            description:
-                translateOhMyPiProviderMutationError(detail, t) || detail || undefined,
-            closeButton: true,
-          },
+        t("ohmypi.provider.enableFailed", {
+          defaultValue: "无法在 Oh My Pi 中启用此供应商",
+        }),
+        {
+          description:
+            translateOhMyPiProviderMutationError(detail, t) ||
+            detail ||
+            undefined,
+          closeButton: true,
+        },
       );
     }
   };

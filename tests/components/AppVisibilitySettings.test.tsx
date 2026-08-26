@@ -29,6 +29,7 @@ const baseSettings: SettingsFormState = {
     ohmypi: false,
   },
   showProfileSwitcher: true,
+  language: "en",
 };
 
 function renderSettings(onChange: (updates: Partial<SettingsFormState>) => void) {
@@ -99,7 +100,11 @@ describe("AppVisibilitySettings — ohmypi auto-discovery guard", () => {
     fireEvent.click(cancelButton());
 
     // Give a tick for any async work
-    const {promise, resolve} = Promise.withResolvers<void>();
+    const {promise, resolve} = (() => {
+      let r: () => void;
+      const p = new Promise<void>((res) => (r = res));
+      return {promise: p, resolve: r!};
+    })();
     setTimeout(resolve, 50);
     await promise;
     expect(onChange).not.toHaveBeenCalled();

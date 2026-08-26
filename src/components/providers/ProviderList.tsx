@@ -222,10 +222,8 @@ export function ProviderList({
     },
     [isPiAuthoritativeStateReady, piCurrentState],
   );
-  const {
-    data: ohmypiCurrentState,
-    isSuccess: isOhMyPiCurrentStateSuccess,
-  } = useOhMyPiCurrentState(appId === "ohmypi");
+  const { data: ohmypiCurrentState, isSuccess: isOhMyPiCurrentStateSuccess } =
+    useOhMyPiCurrentState(appId === "ohmypi");
   const isOhMyPiAuthoritativeStateReady =
     appId !== "ohmypi" || isOhMyPiCurrentStateSuccess;
   const isOhMyPiProviderInConfig = useCallback(
