@@ -820,24 +820,6 @@ fn get_codex_managed_oauth_live_auth_value(
 ) -> Result<Value, AppError> {
     std::thread::spawn(move || {
         tauri::async_runtime::block_on(async move {
-            if let Some((refresh_token, id_token, last_refresh_ms)) =
-                crate::codex_config::read_codex_live_auth_refresh_for_account(&account_id)
-            {
-                if let Err(err) = manager
-                    .adopt_account_refresh_token(
-                        &account_id,
-                        refresh_token,
-                        id_token,
-                        last_refresh_ms,
-                    )
-                    .await
-                {
-                    log::warn!(
-                        "读回 Codex CLI 轮换后的 refresh_token 失败（account={account_id}）: {err}"
-                    );
-                }
-            }
-
             let bundle = manager
                 .get_valid_token_bundle_for_account(&account_id)
                 .await
@@ -857,7 +839,7 @@ fn get_codex_managed_oauth_live_auth_value(
                 })?;
 
             Ok::<Value, String>(codex_managed_oauth_live_auth(
-                &account_id,
+                &bundle.chatgpt_account_id,
                 &bundle.access_token,
                 Some(id_token),
                 &bundle.refresh_token,
@@ -891,7 +873,7 @@ pub(crate) fn prepare_codex_managed_oauth_live_auth_switch_away(
 }
 
 pub(crate) fn codex_managed_oauth_live_auth(
-    account_id: &str,
+    chatgpt_account_id: &str,
     access_token: &str,
     id_token: Option<&str>,
     refresh_token: &str,
@@ -901,7 +883,7 @@ pub(crate) fn codex_managed_oauth_live_auth(
     // refresh_token、account_id，并带顶层 last_refresh。**必须**包含 refresh_token，
     // 否则 Codex CLI 在 access_token 过期后无法自刷新（“裸跑 codex” 会静默失效）。
     crate::codex_config::codex_managed_oauth_auth_value(
-        account_id,
+        chatgpt_account_id,
         access_token,
         id_token,
         refresh_token,
@@ -1280,13 +1262,12 @@ pub(crate) fn write_live_snapshot(app_type: &AppType, provider: &Provider) -> Re
                 config_str,
                 profile,
             )?;
-            if provider
+            if let Some(account_id) = provider
                 .meta
                 .as_ref()
                 .and_then(|meta| meta.managed_account_id_for("codex_oauth"))
-                .is_some()
             {
-                crate::codex_config::record_codex_managed_oauth_live_auth(auth)?;
+                crate::codex_config::record_codex_managed_oauth_live_auth(auth, &account_id)?;
             }
         }
         AppType::Gemini => {
@@ -2727,8 +2708,9 @@ base_url = "https://a.example/v1"
         let manager = Arc::new(CodexOAuthManager::new(temp.path().to_path_buf()));
         tauri::async_runtime::block_on(async {
             manager
-                .add_test_account_with_access_token(
-                    "acct-managed",
+                .add_test_account_with_workspace_and_access_token(
+                    "local-managed",
+                    "workspace-shared",
                     "managed-token",
                     Some("managed-id-token"),
                 )
@@ -2751,7 +2733,7 @@ base_url = "https://a.example/v1"
             auth_binding: Some(AuthBinding {
                 source: AuthBindingSource::ManagedAccount,
                 auth_provider: Some("codex_oauth".to_string()),
-                account_id: Some("acct-managed".to_string()),
+                account_id: Some("local-managed".to_string()),
             }),
             ..Default::default()
         });
@@ -2774,7 +2756,7 @@ base_url = "https://a.example/v1"
             .expect("tokens object");
         assert_eq!(
             tokens.get("account_id").and_then(|v| v.as_str()),
-            Some("acct-managed")
+            Some("workspace-shared")
         );
         assert_eq!(
             tokens.get("access_token").and_then(|v| v.as_str()),
