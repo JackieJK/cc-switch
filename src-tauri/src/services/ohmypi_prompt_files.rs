@@ -24,6 +24,7 @@ static PROMPT_FILE_LOCK: LazyLock<Mutex<()>> = LazyLock::new(|| Mutex::new(()));
 pub enum OhMyPiPromptFileKind {
     Agents,
     SystemOverride,
+    SystemAppend,
 }
 
 impl OhMyPiPromptFileKind {
@@ -31,6 +32,7 @@ impl OhMyPiPromptFileKind {
         match self {
             Self::Agents => "AGENTS.md",
             Self::SystemOverride => "SYSTEM.md",
+            Self::SystemAppend => "APPEND_SYSTEM.md",
         }
     }
 
@@ -38,6 +40,75 @@ impl OhMyPiPromptFileKind {
         match self {
             Self::Agents => "AGENTS.md",
             Self::SystemOverride => "SYSTEM.md",
+            Self::SystemAppend => "APPEND_SYSTEM.md",
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct OhMyPiAgentsFileSnapshot {
+    pub content: Option<String>,
+    pub revision: String,
+}
+
+/// Coordinates every CC Switch read-modify-write operation on Oh My Pi's
+/// `AGENTS.md`.
+///
+/// Keeping the guard alive across the database update lets callers compare the
+/// file revision immediately before an atomic replacement and roll back their
+/// database write if Oh My Pi or another editor changed the file in the
+/// meantime. Reads and writes go directly through the file system (not
+/// `OhMyPiPromptFileService`) so the guard's lock is not re-acquired —
+/// `std::sync::Mutex` is not reentrant.
+pub struct OhMyPiAgentsFileGuard {
+    _guard: MutexGuard<'static, ()>,
+    path: PathBuf,
+}
+
+impl OhMyPiAgentsFileGuard {
+    pub fn acquire() -> Result<Self, AppError> {
+        Ok(Self {
+            _guard: lock_prompt_files()?,
+            path: get_agent_dir()?.join("AGENTS.md"),
+        })
+    }
+
+    pub fn read(&self) -> Result<OhMyPiAgentsFileSnapshot, AppError> {
+        let (content, file_revision) = match fs::File::open(&self.path) {
+            Ok(_) => {
+                let bytes = read_limited(&self.path)?;
+                let file_revision = revision(&bytes);
+                let content = String::from_utf8(bytes).map_err(|error| {
+                    AppError::Config(format!(
+                        "Oh My Pi AGENTS.md must be UTF-8 ({}): {error}",
+                        self.path.display()
+                    ))
+                })?;
+                (Some(content), file_revision)
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                (None, MISSING_REVISION.to_string())
+            }
+            Err(error) => return Err(AppError::io(&self.path, error)),
+        };
+        Ok(OhMyPiAgentsFileSnapshot {
+            content,
+            revision: file_revision,
+        })
+    }
+
+    pub fn replace(&self, expected_revision: &str, content: &str) -> Result<(), AppError> {
+        validate_content_size(content, "Oh My Pi AGENTS.md")?;
+        ensure_revision(&self.path, expected_revision, "Oh My Pi AGENTS.md")?;
+        atomic_write(&self.path, content.as_bytes())
+    }
+
+    pub fn delete(&self, expected_revision: &str) -> Result<(), AppError> {
+        ensure_revision(&self.path, expected_revision, "Oh My Pi AGENTS.md")?;
+        match fs::remove_file(&self.path) {
+            Ok(()) => Ok(()),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
+            Err(error) => Err(AppError::io(&self.path, error)),
         }
     }
 }
@@ -310,6 +381,7 @@ mod tests {
     fn agents_file_uses_agents_md() {
         assert_eq!(OhMyPiPromptFileKind::Agents.filename(), "AGENTS.md");
         assert_eq!(OhMyPiPromptFileKind::SystemOverride.filename(), "SYSTEM.md");
+        assert_eq!(OhMyPiPromptFileKind::SystemAppend.filename(), "APPEND_SYSTEM.md");
     }
 
     #[test]

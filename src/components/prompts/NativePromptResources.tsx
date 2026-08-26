@@ -917,6 +917,13 @@ export const OHMYPI_PROMPT_RESOURCES_CONFIG: NativePromptResourcesConfig = {
       descriptionKey: "ohmypi.prompts.systemOverrideDescription",
       icon: "file",
     },
+    {
+      kind: "system_append",
+      filename: "APPEND_SYSTEM.md",
+      titleKey: "ohmypi.prompts.systemAppend",
+      descriptionKey: "ohmypi.prompts.systemAppendDescription",
+      icon: "append",
+    },
   ],
   api: {
     getFile: (kind) => promptsApi.getOhMyPiPromptFile(kind as OhMyPiPromptFileKind),

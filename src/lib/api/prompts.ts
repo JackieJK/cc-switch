@@ -25,7 +25,7 @@ export interface PiPromptTemplate {
   revision: string;
 }
 
-export type OhMyPiPromptFileKind = "agents" | "system_override";
+export type OhMyPiPromptFileKind = "agents" | "system_override" | "system_append";
 
 export interface OhMyPiPromptFileSnapshot {
   exists: boolean;
