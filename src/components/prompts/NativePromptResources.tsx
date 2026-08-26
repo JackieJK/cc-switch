@@ -922,7 +922,7 @@ export const OHMYPI_PROMPT_RESOURCES_CONFIG: NativePromptResourcesConfig = {
       filename: "APPEND_SYSTEM.md",
       titleKey: "ohmypi.prompts.systemAppend",
       descriptionKey: "ohmypi.prompts.systemAppendDescription",
-      icon: "append",
+      icon: "file",
     },
   ],
   api: {
