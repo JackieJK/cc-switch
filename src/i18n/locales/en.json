@@ -1174,7 +1174,7 @@
     },
     "autoDiscovery": {
       "dialog": {
-        "title": "Disable Oh My Pi agent auto-discovery?",
+        "title": "Stop Oh My Pi from loading skills/MCP from other agents?",
         "reason": "Oh My Pi (omp) automatically discovers and loads MCP servers and skills from the following other agents. With auto-discovery active, the MCP/skill status shown in cc-switch will not match what omp actually loads. To keep cc-switch and omp in sync, disable omp’s auto-discovery of these sources before enabling management.",
         "agentListHeading": "Agent sources omp auto-discovers:",
         "scope": "This writes the 12 discovery-provider ids into omp’s user-level config.yml disabledProviders (union, preserving existing entries and other keys). omp’s own sources (.omp, built-in, OMP extension packs, AGENTS.md) and .mcp.json / SSH sources are not affected. No other agent’s config files are modified.",
@@ -1182,10 +1182,10 @@
         "confirmBtn": "Confirm and disable auto-discovery"
       },
       "disabled": {
-        "toast": "Oh My Pi auto-discovery disabled. Reload Oh My Pi (new session or /reload) for it to take effect."
+        "toast": "Stopped Oh My Pi from loading skills/MCP from other agents. Reload Oh My Pi (new session or /reload) for it to take effect."
       },
       "disableFailed": {
-        "toast": "Failed to disable Oh My Pi auto-discovery. Oh My Pi management was not enabled."
+        "toast": "Failed to stop Oh My Pi from loading skills/MCP from other agents. Oh My Pi management was not enabled."
       }
     }
   },
