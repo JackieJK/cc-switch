@@ -1144,7 +1144,7 @@
       "fileRemoved": "{{filename}} deleted",
       "saveFailed": "Failed to save the Oh My Pi instruction file",
       "deleteFailed": "Failed to delete the Oh My Pi instruction file",
-      "reloadNotice": "Open Oh My Pi sessions do not hot-reload these resources. After a change, run /reload while Oh My Pi is idle. New sessions read them automatically.",
+      "reloadNotice": "Open Oh My Pi sessions do not hot-reload these resources. After a change, run /reload-plugins while Oh My Pi is idle. New sessions read them automatically.",
       "templatesDescription": "Saved templates in the commands/ directory are available in Oh My Pi as /command-name. No enable step is needed.",
       "newTemplate": "New prompt template",
       "editTemplate": "Edit /{{slug}}",
@@ -1178,11 +1178,11 @@
         "reason": "Oh My Pi (omp) automatically discovers and loads MCP servers and skills from the following other agents. With auto-discovery active, the MCP/skill status shown in cc-switch will not match what omp actually loads. To keep cc-switch and omp in sync, disable omp’s auto-discovery of these sources before enabling management.",
         "agentListHeading": "Agent sources omp auto-discovers:",
         "scope": "This writes the 12 discovery-provider ids into omp’s user-level config.yml disabledProviders (union, preserving existing entries and other keys). omp’s own sources (.omp, built-in, OMP extension packs, AGENTS.md) and .mcp.json / SSH sources are not affected. No other agent’s config files are modified.",
-        "effectTiming": "Takes effect on the next omp session or after /reload.",
+        "effectTiming": "Takes effect on the next omp session or after /reload-plugins.",
         "confirmBtn": "Confirm and disable auto-discovery"
       },
       "disabled": {
-        "toast": "Stopped Oh My Pi from loading skills/MCP from other agents. Reload Oh My Pi (new session or /reload) for it to take effect."
+        "toast": "Stopped Oh My Pi from loading skills/MCP from other agents. Reload Oh My Pi (new session or /reload-plugins) for it to take effect."
       },
       "disableFailed": {
         "toast": "Failed to stop Oh My Pi from loading skills/MCP from other agents. Oh My Pi management was not enabled."

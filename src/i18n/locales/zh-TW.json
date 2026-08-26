@@ -1145,7 +1145,7 @@
       "fileRemoved": "{{filename}} 已刪除",
       "saveFailed": "儲存 Oh My Pi 指示檔案失敗",
       "deleteFailed": "刪除 Oh My Pi 指示檔案失敗",
-      "reloadNotice": "已開啟的 Oh My Pi 不會自動熱更新；修改後請在閒置時執行 /reload。新啟動的 Oh My Pi 會自動讀取。",
+      "reloadNotice": "已開啟的 Oh My Pi 不會自動熱更新；修改後請在閒置時執行 /reload-plugins。新啟動的 Oh My Pi 會自動讀取。",
       "templatesDescription": "commands/ 目錄中的範本儲存後可在 Oh My Pi 中透過 /指令名稱 呼叫，無需啟用。",
       "newTemplate": "新增提示範本",
       "editTemplate": "編輯 /{{slug}}",
@@ -1179,11 +1179,11 @@
         "reason": "Oh My Pi（omp）會自動發現並載入以下其他 Agent 的 MCP 伺服器與技能。啟用管理後這些來源仍會被 omp 自動載入，cc-switch 顯示的 MCP/技能狀態將與 omp 實際載入的不一致。為保持二者一致，請在啟用管理前關閉 omp 對這些 Agent 的自動發現。",
         "agentListHeading": "omp 會自動發現的 Agent 來源：",
         "scope": "此操作將 12 個發現源 id 併入 omp 用戶級 config.yml 的 disabledProviders（保留既有條目與其餘鍵）。omp 自身來源（.omp、內置、OMP 擴充包、AGENTS.md）與 .mcp.json / SSH 來源不受影響，不修改任何其他 Agent 的配置檔。",
-        "effectTiming": "於 Oh My Pi 重新載入（新會話或 /reload）後生效。",
+        "effectTiming": "於 Oh My Pi 重新載入（新會話或 /reload-plugins）後生效。",
         "confirmBtn": "確認並關閉自動發現"
       },
       "disabled": {
-        "toast": "已關閉 Oh My Pi 從其他 Agent 載入技能與 MCP。請重新載入 Oh My Pi（新會話或 /reload）後生效。"
+        "toast": "已關閉 Oh My Pi 從其他 Agent 載入技能與 MCP。請重新載入 Oh My Pi（新會話或 /reload-plugins）後生效。"
       },
       "disableFailed": {
         "toast": "關閉 Oh My Pi 從其他 Agent 載入技能與 MCP 失敗，未啟用 Oh My Pi 管理。"

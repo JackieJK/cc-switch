@@ -52,7 +52,7 @@ export function useOhMyPiAgentDiscoveryState() {
 
 /** Disable omp's auto-discovery of the 12 other-agent sources. Returns the
  * updated `disabledProviders`. On success, invalidates the discovery-state
- * query and toasts that it takes effect on the next omp session / `/reload`. */
+ * query and toasts that it takes effect on the next omp session / `/reload-plugins`. */
 export function useDisableOhMyPiAgentAutoDiscovery() {
   const queryClient = useQueryClient();
   const { t } = useTranslation();
