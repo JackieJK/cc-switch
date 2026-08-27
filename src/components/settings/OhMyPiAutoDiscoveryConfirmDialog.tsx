@@ -54,7 +54,7 @@ export function OhMyPiAutoDiscoveryConfirmDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-3">
+        <div className="space-y-3 px-6">
           <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
             <div className="mb-2 text-xs font-medium">
               {t("ohmypi.autoDiscovery.dialog.agentListHeading")}
@@ -68,7 +68,7 @@ export function OhMyPiAutoDiscoveryConfirmDialog({
             </ul>
           </div>
 
-          <div className="space-y-1.5 text-xs leading-relaxed text-muted-foreground">
+          <div className="text-xs leading-relaxed text-muted-foreground">
             <p>{t("ohmypi.autoDiscovery.dialog.scope")}</p>
             <p>{t("ohmypi.autoDiscovery.dialog.effectTiming")}</p>
           </div>
