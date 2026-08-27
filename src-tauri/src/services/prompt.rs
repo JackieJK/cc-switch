@@ -211,11 +211,11 @@ impl PromptService {
                 .content
                 .ok_or_else(|| AppError::Message("提示词文件不存在".to_string()))?
         } else if matches!(app, AppType::OhMyPi) {
-             OhMyPiAgentsFileGuard::acquire()?
-                 .read()?
-                 .content
-                 .ok_or_else(|| AppError::Message("提示词文件不存在".to_string()))?
-         } else {
+            OhMyPiAgentsFileGuard::acquire()?
+                .read()?
+                .content
+                .ok_or_else(|| AppError::Message("提示词文件不存在".to_string()))?
+        } else {
             let file_path = prompt_file_path(&app)?;
             if !file_path.exists() {
                 return Err(AppError::Message("提示词文件不存在".to_string()));
@@ -1011,7 +1011,8 @@ mod ohmypi_prompt_tests {
             std::fs::read_to_string(&path).expect("read AGENTS.md"),
             "managed content"
         );
-        let refreshed = PromptService::get_prompts(&state, AppType::OhMyPi).expect("reload prompts");
+        let refreshed =
+            PromptService::get_prompts(&state, AppType::OhMyPi).expect("reload prompts");
         assert!(refreshed["test-prompt"].enabled);
         assert!(!refreshed["duplicate-prompt"].enabled);
     }

@@ -702,8 +702,8 @@ impl SkillService {
         let mut skills = db.get_all_installed_skills()?;
         for skill in skills.values_mut() {
             skill.apps.pi = Self::skill_exists_in_app(&skill.directory, &AppType::Pi);
-            skill.apps.ohmypi = Self::skill_exists_in_app(&skill.directory, &AppType::OhMyPi)
-                || skill.apps.ohmypi;
+            skill.apps.ohmypi =
+                Self::skill_exists_in_app(&skill.directory, &AppType::OhMyPi) || skill.apps.ohmypi;
         }
         Ok(skills.into_values().collect())
     }
@@ -4873,7 +4873,10 @@ mod tests {
         };
         assert!(state("managed-skill"), "a DB flag must stay authoritative");
         assert!(state("native-skill"), "disk presence must activate OhMyPi");
-        assert!(!state("absent-skill"), "no DB flag and no native presence must stay disabled");
+        assert!(
+            !state("absent-skill"),
+            "no DB flag and no native presence must stay disabled"
+        );
     }
 
     #[test]

@@ -5,8 +5,8 @@
 mod endpoints;
 mod gemini_auth;
 mod live;
-mod pi;
 mod ohmypi;
+mod pi;
 mod usage;
 
 use indexmap::IndexMap;
@@ -37,7 +37,6 @@ pub fn import_pi_providers_from_live(state: &AppState) -> Result<usize, AppError
 pub fn import_ohmypi_providers_from_live(state: &AppState) -> Result<usize, AppError> {
     ohmypi::import_from_live(state)
 }
-
 
 // Internal re-exports (pub(crate))
 pub(crate) use live::sanitize_claude_settings_for_live;
@@ -6486,7 +6485,10 @@ impl ProviderService {
                 crate::pi_config::validate_provider_node(&provider.id, &provider.settings_config)?;
             }
             AppType::OhMyPi => {
-                crate::ohmypi_config::validate_provider_node(&provider.id, &provider.settings_config)?;
+                crate::ohmypi_config::validate_provider_node(
+                    &provider.id,
+                    &provider.settings_config,
+                )?;
             }
         }
 

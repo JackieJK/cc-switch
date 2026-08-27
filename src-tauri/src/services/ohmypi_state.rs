@@ -1,7 +1,9 @@
 //! Read-only Oh My Pi provider membership and global default reference.
 
 use crate::error::AppError;
-use crate::ohmypi_config::{provider_from_selector, read_ohmypi_default_model, read_ohmypi_native_providers};
+use crate::ohmypi_config::{
+    provider_from_selector, read_ohmypi_default_model, read_ohmypi_native_providers,
+};
 use crate::store::AppState;
 use serde::Serialize;
 
@@ -18,7 +20,8 @@ pub(crate) struct OhMyPiStateService;
 
 impl OhMyPiStateService {
     pub(crate) fn current(state: &AppState) -> Result<OhMyPiCurrentState, AppError> {
-        let _guard = futures::executor::block_on(state.proxy_service.lock_switch_for_app(OHMYPI_APP));
+        let _guard =
+            futures::executor::block_on(state.proxy_service.lock_switch_for_app(OHMYPI_APP));
         let native = read_ohmypi_native_providers()?;
         let enabled_provider_ids = native.keys().cloned().collect::<Vec<_>>();
         // `modelRoles.default` is a `<provider>/<model>` selector. The provider
@@ -63,12 +66,10 @@ mod tests {
             "providers:\n  managed:\n    baseUrl: https://api.example.com/v1\n    api: openai-completions\n    models:\n      - id: model-a\n  native:\n    baseUrl: https://native.example\n",
         )
         .expect("write models");
-        let settings_path = crate::ohmypi_config::get_ohmypi_settings_path().expect("settings path");
-        fs::write(
-            settings_path,
-            "modelRoles:\n  default: managed/model-a\n",
-        )
-        .expect("write settings");
+        let settings_path =
+            crate::ohmypi_config::get_ohmypi_settings_path().expect("settings path");
+        fs::write(settings_path, "modelRoles:\n  default: managed/model-a\n")
+            .expect("write settings");
 
         let current = OhMyPiStateService::current(&state).expect("read state");
         assert_eq!(
@@ -89,12 +90,10 @@ mod tests {
         fs::create_dir_all(models_path.parent().expect("models directory"))
             .expect("create models directory");
         fs::write(models_path, "providers: {}\n").expect("write empty models");
-        let settings_path = crate::ohmypi_config::get_ohmypi_settings_path().expect("settings path");
-        fs::write(
-            settings_path,
-            "modelRoles:\n  default: openai/gpt-4o\n",
-        )
-        .expect("write settings");
+        let settings_path =
+            crate::ohmypi_config::get_ohmypi_settings_path().expect("settings path");
+        fs::write(settings_path, "modelRoles:\n  default: openai/gpt-4o\n")
+            .expect("write settings");
 
         let current = OhMyPiStateService::current(&state).expect("read state");
         assert!(current.enabled_provider_ids.is_empty());

@@ -641,7 +641,6 @@ impl AppSettings {
             .filter(|s| !s.is_empty())
             .map(|s| s.to_string());
 
-
         self.language = self
             .language
             .as_ref()

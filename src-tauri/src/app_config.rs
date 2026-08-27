@@ -50,7 +50,7 @@ impl McpApps {
             AppType::OpenCode => self.opencode = enabled,
             AppType::OpenClaw => {} // OpenClaw doesn't support MCP, ignore
             AppType::Hermes => self.hermes = enabled,
-            AppType::Pi => {}            // Pi core has no native MCP registry.
+            AppType::Pi => {} // Pi core has no native MCP registry.
             AppType::OhMyPi => self.ohmypi = enabled,
             AppType::ClaudeDesktop => {} // Claude Desktop 3P provider config doesn't support MCP here
         }
@@ -912,7 +912,7 @@ impl MultiAppConfig {
                 AppType::OpenClaw => continue, // OpenClaw MCP is still in development, skip
                 AppType::Hermes => continue,   // Hermes didn't exist in v3.6.x, skip
                 AppType::Pi => continue,       // Pi didn't exist in v3.6.x, skip
-                AppType::OhMyPi => continue,  // Oh My Pi didn't exist in v3.6.x, skip
+                AppType::OhMyPi => continue,   // Oh My Pi didn't exist in v3.6.x, skip
             };
 
             for (id, entry) in old_servers {

@@ -3481,15 +3481,18 @@ mod tests {
         Database::apply_schema_migrations_on_conn(&conn)?;
 
         assert_eq!(Database::get_user_version(&conn)?, SCHEMA_VERSION);
-        assert!(Database::has_column(&conn, "mcp_servers", "enabled_ohmypi")?);
+        assert!(Database::has_column(
+            &conn,
+            "mcp_servers",
+            "enabled_ohmypi"
+        )?);
         assert!(Database::has_column(&conn, "skills", "enabled_ohmypi")?);
         // v17 引入的会话去重账本及其数据在升级后必须保留
         assert!(Database::table_exists(&conn, "session_usage_dedup")?);
-        let dedup_count: i64 = conn.query_row(
-            "SELECT COUNT(*) FROM session_usage_dedup",
-            [],
-            |row| row.get(0),
-        )?;
+        let dedup_count: i64 =
+            conn.query_row("SELECT COUNT(*) FROM session_usage_dedup", [], |row| {
+                row.get(0)
+            })?;
         assert_eq!(dedup_count, 1);
         let mcp_values: (i64, i64) = conn.query_row(
             "SELECT enabled_hermes, enabled_ohmypi FROM mcp_servers WHERE id = 'mcp-1'",
@@ -3506,5 +3509,4 @@ mod tests {
 
         Ok(())
     }
-
 }

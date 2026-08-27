@@ -5,7 +5,9 @@
 //! The exact field set is finalized against the local Oh My Pi source during apply;
 //! this provider consumes the stable envelope (filename id + message role/content).
 
-use super::utils::{extract_text, parse_timestamp_to_ms, path_basename, truncate_summary, TITLE_MAX_CHARS};
+use super::utils::{
+    extract_text, parse_timestamp_to_ms, path_basename, truncate_summary, TITLE_MAX_CHARS,
+};
 use crate::session_manager::{SessionMessage, SessionMeta};
 use std::fs;
 use std::io::{BufRead, BufReader};
@@ -51,8 +53,8 @@ fn collect_sessions_in_root(root: &Path, output: &mut Vec<SessionMeta>) {
 
 pub fn load_messages(path: &Path) -> Result<Vec<SessionMessage>, String> {
     validate_file_size(path)?;
-    let file =
-        fs::File::open(path).map_err(|error| format!("Failed to open Oh My Pi session: {error}"))?;
+    let file = fs::File::open(path)
+        .map_err(|error| format!("Failed to open Oh My Pi session: {error}"))?;
     let mut messages = Vec::new();
     for line in BufReader::new(file).lines() {
         let line = line.map_err(|error| format!("Failed to read Oh My Pi session: {error}"))?;
@@ -194,7 +196,11 @@ fn parse_session(path: &Path) -> Result<SessionMeta, String> {
                 .as_deref()
                 .map(|message| truncate_summary(message, TITLE_MAX_CHARS))
                 .filter(|message| !message.is_empty())
-                .or_else(|| cwd.as_deref().and_then(path_basename).filter(|s| !s.is_empty()))
+                .or_else(|| {
+                    cwd.as_deref()
+                        .and_then(path_basename)
+                        .filter(|s| !s.is_empty())
+                })
         });
 
     Ok(SessionMeta {

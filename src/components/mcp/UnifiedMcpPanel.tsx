@@ -379,7 +379,6 @@ interface UnifiedMcpListItemProps {
   isLast?: boolean;
 }
 
-
 const UnifiedMcpListItem: React.FC<UnifiedMcpListItemProps> = ({
   id,
   server,
@@ -440,7 +439,6 @@ const UnifiedMcpListItem: React.FC<UnifiedMcpListItemProps> = ({
           </p>
         )}
       </div>
-
 
       <AppToggleGroup
         apps={server.apps}

@@ -123,7 +123,9 @@ pub(super) fn update(
     state
         .db
         .get_provider_by_id(&original_id, app_type.as_str())?
-        .ok_or_else(|| AppError::InvalidInput(format!("Oh My Pi provider '{original_id}' not found")))?;
+        .ok_or_else(|| {
+            AppError::InvalidInput(format!("Oh My Pi provider '{original_id}' not found"))
+        })?;
     strip_unsupported_ohmypi_metadata(&mut provider);
     ProviderService::validate_provider_settings(&app_type, &provider)?;
     ProviderService::normalize_usage_script_credential_overrides(&app_type, &mut provider);
@@ -160,7 +162,9 @@ pub(super) fn delete(state: &AppState, id: &str) -> Result<(), AppError> {
 
     if let Err(error) = state.db.delete_provider(app_type.as_str(), id) {
         if let Some(removed) = removed.as_ref() {
-            if let Err(rollback) = crate::ohmypi_config::restore_ohmypi_provider_if_missing(id, removed) {
+            if let Err(rollback) =
+                crate::ohmypi_config::restore_ohmypi_provider_if_missing(id, removed)
+            {
                 return Err(AppError::Config(format!(
                     "failed to delete Oh My Pi provider: {error}; native rollback failed: {rollback}"
                 )));
@@ -185,7 +189,9 @@ pub(super) fn remove(state: &AppState, id: &str) -> Result<(), AppError> {
     let mut synced = provider;
     merge_native_config(&mut synced, removed.clone());
     if let Err(error) = state.db.save_provider(app_type.as_str(), &synced) {
-        if let Err(rollback) = crate::ohmypi_config::restore_ohmypi_provider_if_missing(id, &removed) {
+        if let Err(rollback) =
+            crate::ohmypi_config::restore_ohmypi_provider_if_missing(id, &removed)
+        {
             return Err(AppError::Config(format!(
                 "failed to preserve Oh My Pi provider before removal: {error}; native rollback failed: {rollback}"
             )));
@@ -251,7 +257,8 @@ fn sync_native_locked(
         let previous_name = provider.name.clone();
         let previous_config = provider.settings_config.clone();
         merge_native_config(&mut provider, config.clone());
-        if !is_new && provider.name == previous_name && provider.settings_config == previous_config {
+        if !is_new && provider.name == previous_name && provider.settings_config == previous_config
+        {
             continue;
         }
 

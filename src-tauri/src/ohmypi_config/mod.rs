@@ -7,7 +7,6 @@
 //! - `mcp.json` — MCP servers (`mcpServers` map), JSON.
 //!
 
-
 use crate::config::{atomic_write_private, get_home_dir};
 use crate::error::AppError;
 use indexmap::IndexMap;
@@ -244,10 +243,7 @@ fn read_document_with_revision(
     yaml: bool,
 ) -> Result<(Value, String), AppError> {
     if !path.exists() {
-        return Ok((
-            Value::Object(Map::new()),
-            MISSING_REVISION.to_string(),
-        ));
+        return Ok((Value::Object(Map::new()), MISSING_REVISION.to_string()));
     }
     let bytes = read_file_limited(path, label)?;
     let revision = revision(&bytes);
@@ -267,13 +263,16 @@ fn write_document(
     yaml: bool,
 ) -> Result<(), AppError> {
     let bytes = if yaml {
-        let yaml: serde_yaml::Value = serde_json::from_value(document.clone()).map_err(|error| {
-            AppError::Config(format!(
-                "{label} config could not be converted to YAML: {error}"
-            ))
-        })?;
+        let yaml: serde_yaml::Value =
+            serde_json::from_value(document.clone()).map_err(|error| {
+                AppError::Config(format!(
+                    "{label} config could not be converted to YAML: {error}"
+                ))
+            })?;
         serde_yaml::to_string(&yaml)
-            .map_err(|error| AppError::Config(format!("{label} YAML serialization failed: {error}")))?
+            .map_err(|error| {
+                AppError::Config(format!("{label} YAML serialization failed: {error}"))
+            })?
             .into_bytes()
     } else {
         let mut bytes = serde_json::to_vec_pretty(document)
@@ -289,9 +288,7 @@ fn write_document(
 fn ensure_revision(path: &Path, expected_revision: &str, label: &str) -> Result<(), AppError> {
     let actual_revision = match fs::File::open(path) {
         Ok(_) => revision(&read_file_limited(path, label)?),
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
-            MISSING_REVISION.to_string()
-        }
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => MISSING_REVISION.to_string(),
         Err(error) => return Err(AppError::io(path, error)),
     };
     if actual_revision == expected_revision {
@@ -317,7 +314,11 @@ fn ensure_parent(path: &Path) -> Result<(), AppError> {
     Ok(())
 }
 
-fn optional_string(object: &Map<String, Value>, key: &str, path: &Path) -> Result<Option<String>, AppError> {
+fn optional_string(
+    object: &Map<String, Value>,
+    key: &str,
+    path: &Path,
+) -> Result<Option<String>, AppError> {
     match object.get(key) {
         None | Some(Value::Null) => Ok(None),
         Some(Value::String(value)) => Ok(Some(value.clone())),
@@ -381,7 +382,13 @@ pub(crate) fn insert_ohmypi_provider(provider_key: &str, config: &Value) -> Resu
     }
 
     providers.insert(provider_key.to_string(), config.clone());
-    write_document(&path, &document, &expected_revision, "Oh My Pi models", true)?;
+    write_document(
+        &path,
+        &document,
+        &expected_revision,
+        "Oh My Pi models",
+        true,
+    )?;
     Ok(true)
 }
 
@@ -410,7 +417,13 @@ pub(crate) fn replace_ohmypi_provider(
         return Ok(());
     }
     providers.insert(provider_key.to_string(), replacement.clone());
-    write_document(&path, &document, &expected_revision, "Oh My Pi models", true)
+    write_document(
+        &path,
+        &document,
+        &expected_revision,
+        "Oh My Pi models",
+        true,
+    )
 }
 
 pub(crate) fn replace_ohmypi_provider_if_present(
@@ -430,7 +443,13 @@ pub(crate) fn replace_ohmypi_provider_if_present(
         return Ok(Some(current));
     }
     providers.insert(provider_key.to_string(), replacement.clone());
-    write_document(&path, &document, &expected_revision, "Oh My Pi models", true)?;
+    write_document(
+        &path,
+        &document,
+        &expected_revision,
+        "Oh My Pi models",
+        true,
+    )?;
     Ok(Some(current))
 }
 
@@ -463,7 +482,13 @@ fn remove_ohmypi_provider_inner(
         )));
     }
     providers.remove(provider_key);
-    write_document(&path, &document, &expected_revision, "Oh My Pi models", true)?;
+    write_document(
+        &path,
+        &document,
+        &expected_revision,
+        "Oh My Pi models",
+        true,
+    )?;
     Ok(Some(current))
 }
 
@@ -590,7 +615,13 @@ fn read_ohmypi_settings_with_revision() -> Result<(Value, String), AppError> {
 fn write_ohmypi_settings(document: &Value, expected_revision: &str) -> Result<(), AppError> {
     let _guard = lock_files()?;
     let path = get_ohmypi_settings_path()?;
-    write_document(&path, document, expected_revision, "Oh My Pi settings", true)
+    write_document(
+        &path,
+        document,
+        expected_revision,
+        "Oh My Pi settings",
+        true,
+    )
 }
 
 /// Read `modelRoles.default` (the full `<provider>/<model>` selector, if set).
@@ -615,7 +646,11 @@ pub(crate) fn write_ohmypi_default_model(selector: Option<&str>) -> Result<(), A
         return Ok(());
     };
     let (mut document, expected_revision) = read_ohmypi_settings_with_revision()?;
-    set_nested(&mut document, &["modelRoles", "default"], Value::String(selector.to_string()));
+    set_nested(
+        &mut document,
+        &["modelRoles", "default"],
+        Value::String(selector.to_string()),
+    );
     write_ohmypi_settings(&document, &expected_revision)
 }
 
@@ -640,8 +675,7 @@ pub(crate) fn read_ohmypi_disabled_providers() -> Result<Vec<String>, AppError> 
 pub(crate) fn set_ohmypi_disabled_providers_union(ids: &[&str]) -> Result<Vec<String>, AppError> {
     let (mut document, expected_revision) = read_ohmypi_settings_with_revision()?;
     let mut existing = read_disabled_providers_from(&document)?;
-    let have: std::collections::HashSet<&str> =
-        existing.iter().map(String::as_str).collect();
+    let have: std::collections::HashSet<&str> = existing.iter().map(String::as_str).collect();
     let to_add: Vec<String> = ids
         .iter()
         .copied()
@@ -649,11 +683,7 @@ pub(crate) fn set_ohmypi_disabled_providers_union(ids: &[&str]) -> Result<Vec<St
         .map(String::from)
         .collect();
     existing.extend(to_add);
-    let new_value: Value = existing
-        .iter()
-        .cloned()
-        .map(Value::String)
-        .collect();
+    let new_value: Value = existing.iter().cloned().map(Value::String).collect();
     set_nested(&mut document, &["disabledProviders"], new_value);
     write_ohmypi_settings(&document, &expected_revision)?;
     Ok(existing)
@@ -682,7 +712,10 @@ fn read_disabled_providers_from(document: &Value) -> Result<Vec<String>, AppErro
 
 /// Split a `<provider>/<model>` selector on the first `/` and return the provider id.
 pub(crate) fn provider_from_selector(selector: &str) -> &str {
-    selector.split_once('/').map(|(provider, _)| provider).unwrap_or(selector)
+    selector
+        .split_once('/')
+        .map(|(provider, _)| provider)
+        .unwrap_or(selector)
 }
 
 fn set_nested(value: &mut Value, path: &[&str], new_value: Value) {
@@ -734,7 +767,8 @@ pub(crate) fn read_ohmypi_mcp_servers() -> Result<IndexMap<String, Value>, AppEr
 pub(crate) fn set_ohmypi_mcp_server(id: &str, config: &Value) -> Result<(), AppError> {
     let _guard = lock_files()?;
     let path = get_ohmypi_mcp_path()?;
-    let (mut document, expected_revision) = read_document_with_revision(&path, "Oh My Pi MCP", false)?;
+    let (mut document, expected_revision) =
+        read_document_with_revision(&path, "Oh My Pi MCP", false)?;
     let root = document.as_object_mut().ok_or_else(|| {
         AppError::Config(format!(
             "Oh My Pi MCP root must be an object: {}",
@@ -757,7 +791,8 @@ pub(crate) fn set_ohmypi_mcp_server(id: &str, config: &Value) -> Result<(), AppE
 pub(crate) fn remove_ohmypi_mcp_server(id: &str) -> Result<(), AppError> {
     let _guard = lock_files()?;
     let path = get_ohmypi_mcp_path()?;
-    let (mut document, expected_revision) = read_document_with_revision(&path, "Oh My Pi MCP", false)?;
+    let (mut document, expected_revision) =
+        read_document_with_revision(&path, "Oh My Pi MCP", false)?;
     let root = document.as_object_mut().ok_or_else(|| {
         AppError::Config(format!(
             "Oh My Pi MCP root must be an object: {}",
@@ -897,7 +932,9 @@ mod tests {
         assert!(source.contains("smol: openai/gpt-4o-mini"));
 
         assert_eq!(
-            read_ohmypi_default_model().expect("read default").as_deref(),
+            read_ohmypi_default_model()
+                .expect("read default")
+                .as_deref(),
             Some("example/example-model")
         );
         assert_eq!(provider_from_selector("example/example-model"), "example");
@@ -1026,8 +1063,7 @@ mod tests {
             "config.yml",
             "modelRoles:\n  default: openai/gpt-4o\nskills:\n  enableClaudeUser: true\n",
         );
-        set_ohmypi_disabled_providers_union(&AGENT_DISCOVERY_PROVIDER_IDS)
-            .expect("union write");
+        set_ohmypi_disabled_providers_union(&AGENT_DISCOVERY_PROVIDER_IDS).expect("union write");
         let source = read_agent_file("config.yml");
         assert!(source.contains("default: openai/gpt-4o"));
         assert!(source.contains("enableClaudeUser: true"));
@@ -1038,10 +1074,7 @@ mod tests {
     #[serial]
     fn set_disabled_providers_union_conflict_on_concurrent_write() {
         let _agent = TestAgentDir::new();
-        write_agent_file(
-            "config.yml",
-            "modelRoles:\n  default: openai/gpt-4o\n",
-        );
+        write_agent_file("config.yml", "modelRoles:\n  default: openai/gpt-4o\n");
         // Read with a revision, then mutate the file on disk to change its
         // revision before attempting the union write through the public API
         // (which re-reads internally). Simulate by writing a stale revision
@@ -1057,17 +1090,19 @@ mod tests {
         // Public API re-reads fresh revision; to force a conflict we must use
         // the internal writer with a deliberately stale revision.
         let stale = "0000000000000000000000000000000000000000000000000000000000000000";
-        let err = write_ohmypi_settings(
-            &json!({"disabledProviders": ["claude"]}),
-            stale,
-        );
+        let err = write_ohmypi_settings(&json!({"disabledProviders": ["claude"]}), stale);
         assert!(matches!(err, Err(AppError::Conflict(_))));
     }
 
     #[test]
     fn agent_discovery_provider_ids_are_unique_and_complete() {
-        let ids: std::collections::HashSet<&str> = AGENT_DISCOVERY_PROVIDER_IDS.iter().copied().collect();
-        assert_eq!(ids.len(), AGENT_DISCOVERY_PROVIDER_IDS.len(), "ids must be unique");
+        let ids: std::collections::HashSet<&str> =
+            AGENT_DISCOVERY_PROVIDER_IDS.iter().copied().collect();
+        assert_eq!(
+            ids.len(),
+            AGENT_DISCOVERY_PROVIDER_IDS.len(),
+            "ids must be unique"
+        );
         assert_eq!(AGENT_DISCOVERY_PROVIDER_IDS.len(), 12);
         for id in AGENT_DISCOVERY_PROVIDER_IDS {
             assert!(!agent_discovery_provider_display_name(id).is_empty());

@@ -55,7 +55,8 @@ pub(crate) fn get_ohmypi_agent_discovery_state() -> Result<OhMyPiAgentDiscoveryS
 
 /// for the confirm dialog.
 #[tauri::command]
-pub(crate) fn get_ohmypi_agent_discovery_providers() -> Result<Vec<OhMyPiAgentDiscoveryProvider>, String> {
+pub(crate) fn get_ohmypi_agent_discovery_providers(
+) -> Result<Vec<OhMyPiAgentDiscoveryProvider>, String> {
     Ok(AGENT_DISCOVERY_PROVIDER_IDS
         .iter()
         .copied()
@@ -74,7 +75,9 @@ pub(crate) fn disable_ohmypi_agent_auto_discovery() -> Result<Vec<String>, Strin
 }
 
 #[tauri::command]
-pub(crate) fn get_ohmypi_current_state(state: State<'_, AppState>) -> Result<OhMyPiCurrentState, String> {
+pub(crate) fn get_ohmypi_current_state(
+    state: State<'_, AppState>,
+) -> Result<OhMyPiCurrentState, String> {
     OhMyPiStateService::current(state.inner()).map_err(|error| error.to_string())
 }
 

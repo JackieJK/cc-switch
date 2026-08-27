@@ -1281,13 +1281,20 @@ fn try_get_version_wsl(
             default_flag_for_shell(shell)
         };
 
-        (shell.to_string(), flag, format!("{} --version", tool_binary_name(tool)))
+        (
+            shell.to_string(),
+            flag,
+            format!("{} --version", tool_binary_name(tool)),
+        )
     } else {
         let cmd = if let Some(flag) = force_shell_flag {
             if !is_valid_shell_flag(flag) {
                 return ShellProbe::NotFound(format!("[WSL:{distro}] invalid shell flag: {flag}"));
             }
-            format!("\"${{SHELL:-sh}}\" {flag} '{} --version'", tool_binary_name(tool))
+            format!(
+                "\"${{SHELL:-sh}}\" {flag} '{} --version'",
+                tool_binary_name(tool)
+            )
         } else {
             // 兜底：自动尝试 -lic, -lc, -c
             let bin = tool_binary_name(tool);

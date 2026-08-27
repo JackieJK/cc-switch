@@ -222,7 +222,11 @@ impl OhMyPiPromptTemplateService {
 
         if let Some(original_slug) = original_slug.filter(|value| *value != slug) {
             let original_path = template_path(&dir, original_slug);
-            ensure_revision(&original_path, expected_revision, "Oh My Pi prompt template")?;
+            ensure_revision(
+                &original_path,
+                expected_revision,
+                "Oh My Pi prompt template",
+            )?;
             ensure_revision(&path, MISSING_REVISION, "Oh My Pi prompt template")?;
             fs::rename(&original_path, &path)
                 .map_err(|error| AppError::io(&original_path, error))?;
@@ -265,12 +269,15 @@ fn get_agent_dir() -> Result<PathBuf, AppError> {
 }
 
 fn lock_prompt_files() -> Result<MutexGuard<'static, ()>, AppError> {
-    PROMPT_FILE_LOCK
-        .lock()
-        .map_err(|error| AppError::Config(format!("Oh My Pi prompt file lock is poisoned: {error}")))
+    PROMPT_FILE_LOCK.lock().map_err(|error| {
+        AppError::Config(format!("Oh My Pi prompt file lock is poisoned: {error}"))
+    })
 }
 
-fn read_prompt_file(root: &Path, kind: OhMyPiPromptFileKind) -> Result<OhMyPiPromptFileSnapshot, AppError> {
+fn read_prompt_file(
+    root: &Path,
+    kind: OhMyPiPromptFileKind,
+) -> Result<OhMyPiPromptFileSnapshot, AppError> {
     let path = root.join(kind.filename());
     if !path.exists() {
         return Ok(OhMyPiPromptFileSnapshot {
@@ -297,9 +304,7 @@ fn read_prompt_file(root: &Path, kind: OhMyPiPromptFileKind) -> Result<OhMyPiPro
 fn ensure_revision(path: &Path, expected_revision: &str, label: &str) -> Result<(), AppError> {
     let actual_revision = match fs::File::open(path) {
         Ok(_) => revision(&read_limited(path)?),
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
-            MISSING_REVISION.to_string()
-        }
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => MISSING_REVISION.to_string(),
         Err(error) => return Err(AppError::io(path, error)),
     };
     if actual_revision == expected_revision {
@@ -381,7 +386,10 @@ mod tests {
     fn agents_file_uses_agents_md() {
         assert_eq!(OhMyPiPromptFileKind::Agents.filename(), "AGENTS.md");
         assert_eq!(OhMyPiPromptFileKind::SystemOverride.filename(), "SYSTEM.md");
-        assert_eq!(OhMyPiPromptFileKind::SystemAppend.filename(), "APPEND_SYSTEM.md");
+        assert_eq!(
+            OhMyPiPromptFileKind::SystemAppend.filename(),
+            "APPEND_SYSTEM.md"
+        );
     }
 
     #[test]

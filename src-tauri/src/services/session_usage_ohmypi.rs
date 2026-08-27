@@ -109,8 +109,8 @@ fn sync_single_ohmypi_file(db: &Database, file_path: &Path) -> Result<(u32, u32)
         return Ok((0, 0));
     }
 
-    let file = fs::File::open(file_path)
-        .map_err(|e| AppError::Config(format!("无法读取文件: {e}")))?;
+    let file =
+        fs::File::open(file_path).map_err(|e| AppError::Config(format!("无法读取文件: {e}")))?;
 
     let mut imported: u32 = 0;
     let mut skipped: u32 = 0;
@@ -137,8 +137,14 @@ fn sync_single_ohmypi_file(db: &Database, file_path: &Path) -> Result<(u32, u32)
             Some(u) if u.is_object() => u,
             _ => continue,
         };
-        let input = usage.get("inputTokens").and_then(|v| v.as_u64()).unwrap_or(0);
-        let output = usage.get("outputTokens").and_then(|v| v.as_u64()).unwrap_or(0);
+        let input = usage
+            .get("inputTokens")
+            .and_then(|v| v.as_u64())
+            .unwrap_or(0);
+        let output = usage
+            .get("outputTokens")
+            .and_then(|v| v.as_u64())
+            .unwrap_or(0);
         if input == 0 && output == 0 {
             continue; // 跳过无用量记录的消息
         }
@@ -147,8 +153,15 @@ fn sync_single_ohmypi_file(db: &Database, file_path: &Path) -> Result<(u32, u32)
 
         let model = bounded_label(message.get("model"), UNKNOWN_MODEL);
         let session_id = value.get("sessionId").and_then(|v| v.as_str());
-        let message_id = message.get("id").and_then(|v| v.as_str()).unwrap_or("unknown");
-        let request_id = format!("ohmypi_session:{}:{}", session_id.unwrap_or("unknown"), message_id);
+        let message_id = message
+            .get("id")
+            .and_then(|v| v.as_str())
+            .unwrap_or("unknown");
+        let request_id = format!(
+            "ohmypi_session:{}:{}",
+            session_id.unwrap_or("unknown"),
+            message_id
+        );
         let created_at = value
             .get("timestamp")
             .and_then(|v| v.as_i64())
@@ -238,12 +251,7 @@ fn insert_ohmypi_session_entry(
         "INSERT OR IGNORE INTO session_usage_dedup
          (data_source, request_id, semantic_id, has_entry_id)
          VALUES (?1, ?2, ?3, ?4)",
-        rusqlite::params![
-            DATA_SOURCE,
-            request_id,
-            request_id,
-            0i64,
-        ],
+        rusqlite::params![DATA_SOURCE, request_id, request_id, 0i64,],
     )
     .map_err(|e| AppError::Database(format!("写入 Oh My Pi 用量去重账本失败: {e}")))?;
 
@@ -258,7 +266,8 @@ fn insert_ohmypi_session_entry(
 
     let pricing = find_model_pricing(&conn, model);
     let multiplier = Decimal::from(1);
-    let (input_cost, output_cost, cache_read_cost, cache_creation_cost, total_cost) = match pricing {
+    let (input_cost, output_cost, cache_read_cost, cache_creation_cost, total_cost) = match pricing
+    {
         Some(p) => {
             let cost = CostCalculator::calculate_for_app(APP_TYPE, &usage, &p, multiplier);
             (
@@ -269,7 +278,13 @@ fn insert_ohmypi_session_entry(
                 cost.total_cost.to_string(),
             )
         }
-        None => ("0".to_string(), "0".to_string(), "0".to_string(), "0".to_string(), "0".to_string()),
+        None => (
+            "0".to_string(),
+            "0".to_string(),
+            "0".to_string(),
+            "0".to_string(),
+            "0".to_string(),
+        ),
     };
 
     conn.execute(
