@@ -3505,7 +3505,6 @@ mod tests {
         Ok(())
     }
 
-
     #[test]
     fn migrate_v17_to_v18_adds_byte_cursor_to_existing_sync_table() -> Result<(), AppError> {
         // 真实升级路径：v17 库带旧 DDL 的 session_log_sync（无字节游标列，
